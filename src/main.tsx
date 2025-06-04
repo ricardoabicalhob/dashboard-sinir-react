@@ -26,6 +26,7 @@ import MovimentacaoParaATPage from './(private)/movimentacao-gerador-para-o-arma
 import MovimentacaoParaDFPage from './(private)/movimentacao-gerador-para-o-destinador-final/page.tsx'
 
 const basename = import.meta.env.BASE_URL
+console.log(import.meta.env.BASE_URL)
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>

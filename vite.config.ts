@@ -4,7 +4,7 @@ import path from 'path'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: 'https://github.com/ricardoabicalhob/dashboard-sinir-react/',
+  base: '/ricardoabicalhob/dashboard-sinir-react/',
   plugins: [react()],
   resolve: {
     alias: {
