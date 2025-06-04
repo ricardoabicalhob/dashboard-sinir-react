@@ -25,12 +25,12 @@ import ArmazenadorTemporarioPage from './(private)/armazenador-temporario/page.t
 import MovimentacaoParaATPage from './(private)/movimentacao-gerador-para-o-armazenador-temporario/page.tsx'
 import MovimentacaoParaDFPage from './(private)/movimentacao-gerador-para-o-destinador-final/page.tsx'
 
-const basename = import.meta.env.BASE_URL
+// const basename = import.meta.env.BASE_URL
 console.log(import.meta.env.BASE_URL)
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
-      <BrowserRouter basename={'/ricardoabicalhob/dashboard-sinir-react/'}>
+      <BrowserRouter basename={'/dashboard-sinir-react/'}>
         <AuthProvider>
           <QueryClientProvider client={queryClient}>
             <Routes>
