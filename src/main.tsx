@@ -30,7 +30,7 @@ console.log(import.meta.env.BASE_URL)
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
-      <BrowserRouter basename={basename}>
+      <BrowserRouter basename={'/ricardoabicalhob/dashboard-sinir-react/'}>
         <AuthProvider>
           <QueryClientProvider client={queryClient}>
             <Routes>
