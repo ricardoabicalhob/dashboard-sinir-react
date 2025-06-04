@@ -1,4 +1,4 @@
-import { MTRResponseI } from "@/interfaces/mtr.interface"
+import { type MTRResponseI } from "@/interfaces/mtr.interface"
 import { subtrairDatasEmDias } from "@/utils/fnUtils"
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
 import { List } from "lucide-react"

@@ -1,4 +1,4 @@
-import { MTRResponseI } from "@/interfaces/mtr.interface";
+import { type MTRResponseI } from "@/interfaces/mtr.interface";
 import { Card } from "./ui/card";
 import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "./ui/table";
 import { agruparPorTipoDeResiduo } from "@/utils/fnFilters";
