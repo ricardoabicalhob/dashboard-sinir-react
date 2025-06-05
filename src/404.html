@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecionando...</title>
+    <script type="text/javascript">
+        // Pega o nome do repositório da URL atual (e.g., de "seu-usuario.github.io/meu-repo/rota")
+        // Retorna "/meu-repo/"
+        const getBasePath = () => {
+            const pathParts = window.location.pathname.split('/');
+            // Se o site for de projeto (e.g. user.github.io/repo-name)
+            // A segunda parte da URL (índice 1) é o nome do repositório
+            if (pathParts.length > 1 && pathParts[1] && window.location.hostname.endsWith('.github.io') && pathParts[1] !== '') {
+                return `/${pathParts[1]}/`;
+            }
+            // Se for um site de usuário/organização (e.g. user.github.io) ou local
+            return '/';
+        };
+        const basePath = getBasePath();
+
+        // Salva a URL original no sessionStorage para que o React Router possa usá-la
+        // Isso é um truque para o React Router saber qual rota tentar após o redirecionamento
+        sessionStorage.setItem('redirect', window.location.href);
+
+        // Redireciona para a página inicial do aplicativo
+        window.location.replace(basePath);
+    </script>
+</head>
+<body>
+    <p>Se você não for redirecionado automaticamente, clique <a id="redirectLink" href="/">aqui</a>.</p>
+    <script>
+        // Atualiza o link para refletir o basePath correto
+        document.getElementById('redirectLink').href = getBasePath();
+    </script>
+</body>
+</html>
