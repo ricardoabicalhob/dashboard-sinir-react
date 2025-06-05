@@ -77,12 +77,10 @@ interface SubMenuBarProps {
 function SubMenuBar({ perfil } :SubMenuBarProps) {
   const location = useLocation()
   const pathname = location.pathname
-  console.log("pathname: ", pathname)
+
   const {
       dateRange, setDateRange
   } = useContext(SystemContext)
-
-  const basename = import.meta.env.BASE_URL
 
   return(
     <div className="flex items-center px-2 border-b border-b-gray-200 divide-x divide-gray-300 h-12 w-full bg-white">
