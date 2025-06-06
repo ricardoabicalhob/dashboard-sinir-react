@@ -5,7 +5,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { cn } from "@/lib/utils"
 import { subtrairDatasEmDias } from "@/utils/fnUtils"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { subDays, format } from "date-fns"
+import { format } from "date-fns"
 import { ptBR } from "date-fns/locale"
 import { CalendarIcon } from "lucide-react"
 import { type Dispatch, type SetStateAction, useEffect, useState } from "react"
