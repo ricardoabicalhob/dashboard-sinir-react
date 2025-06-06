@@ -13,7 +13,7 @@ import { type LoginResponseI } from "@/interfaces/login.interface"
 import { type MTRResponseI } from "@/interfaces/mtr.interface"
 import generatePdfListaMtrsDownload from "@/repositories/generatePdfListaMtrsDownload"
 import generatePdfListaMtrsPorDestinadorDownload from "@/repositories/generatePdfListaMtrsPorDestinadorDownload"
-import { generatePdfTableDestinacao, prepareDataForPdf } from "@/repositories/generatePdfTableDestinacao"
+import { generatePdfTableDestinacao, prepararDadosParaPdf } from "@/repositories/generatePdfTableDestinacao"
 import { getMtrDetails } from "@/repositories/getMtrDetails"
 import { getMtrList } from "@/repositories/getMtrList"
 import { filtrarTudoComDataDeRecebimentoDentroDoPeriodo, filtrarTudoSemDataDeRecebimento, agruparPorTipoDeResiduo, agruparPorDestinador } from "@/utils/fnFilters"
@@ -268,7 +268,7 @@ export default function MovimentacaoParaDFPage() {
                             disableButton={showTableManifestsReceived}
                             setDisableButton={()=> {}}
                             onClick={()=> {
-                                const preparedData = prepareDataForPdf(agruparPorDestinador(filtrarTudoComDataDeRecebimentoDentroDoPeriodo(detailedReferencePeriodList || [], dateFrom, dateTo)), "Destinador")
+                                const preparedData = prepararDadosParaPdf(agruparPorDestinador(filtrarTudoComDataDeRecebimentoDentroDoPeriodo(detailedReferencePeriodList || [], dateFrom, dateTo)), "Destinador")
                                 generatePdfTableDestinacao(
                                     preparedData, 
                                     `${profile?.objetoResposta.parCodigo} - ${profile?.objetoResposta.parDescricao}`,

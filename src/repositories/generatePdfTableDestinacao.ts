@@ -17,7 +17,7 @@ interface DestinadorDataForPdf {
     totalRecebido: number;
 }
 
-export function prepareDataForPdf(
+export function prepararDadosParaPdf(
     listaAgrupadaPorDestinadorOuGerador: MTRResponseI[][],
     tipo: "Destinador" | "Gerador"
 ): DestinadorDataForPdf[] {

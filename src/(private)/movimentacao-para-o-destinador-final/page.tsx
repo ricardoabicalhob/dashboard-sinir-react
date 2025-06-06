@@ -9,7 +9,7 @@ import { SystemContext } from "@/contexts/system.context"
 import { type LoginResponseI } from "@/interfaces/login.interface"
 import { type MTRResponseI } from "@/interfaces/mtr.interface"
 import generatePdfListaMtrsPorDestinadorDownload from "@/repositories/generatePdfListaMtrsPorDestinadorDownload"
-import { generatePdfTableDestinacao, prepareDataForPdf } from "@/repositories/generatePdfTableDestinacao"
+import { generatePdfTableDestinacao, prepararDadosParaPdf } from "@/repositories/generatePdfTableDestinacao"
 import { getMtrDetails } from "@/repositories/getMtrDetails"
 import { getMtrList } from "@/repositories/getMtrList"
 import { filtrarTudoComDataDeRecebimentoDentroDoPeriodo, agruparPorGerador, agruparPorTipoDeResiduo, agruparPorDestinador, agruparPorGeradorEDestinador } from "@/utils/fnFilters"
@@ -25,8 +25,11 @@ export default function VisaoGeralPage() {
         token,
         loginResponse
     } = useContext(AuthContext)
-    const [ dateFrom, setDateFrom ] = useState<Date>(new Date(formatarDataDDMMYYYYParaMMDDYYYY(subDays(new Date(Date.now()), 30).toLocaleDateString()) || ""))
-    const [ dateTo, setDateTo ] = useState<Date>(new Date(formatarDataDDMMYYYYParaMMDDYYYY(new Date(Date.now()).toLocaleDateString()) || ""))
+    const {
+        dateRange
+    } = useContext(SystemContext)
+    const [ dateFrom, setDateFrom ] = useState<Date>(new Date(formatarDataDDMMYYYYParaMMDDYYYY((dateRange.from || new Date()).toLocaleDateString()) || ""))
+    const [ dateTo, setDateTo ] = useState<Date>(new Date(formatarDataDDMMYYYYParaMMDDYYYY((dateRange.to || new Date()).toLocaleDateString()) || ""))
     const dateFromBefore = subDays(dateFrom, 90)
     const dateToBefore = subDays(dateFrom, 1)
     const dateFromBeforeBefore = subDays(dateFromBefore, 90)
@@ -119,10 +122,6 @@ export default function VisaoGeralPage() {
         setShowListManifestsReceivedSentFromTheGeneratorAndAT(true)
         setShowTableManifestsReceivedSentFromTheGeneratorAndAT(true)
     }
-
-    const {
-        dateRange
-    } = useContext(SystemContext)
 
     useEffect(()=> {
         if(dateRange) {
@@ -422,28 +421,24 @@ export default function VisaoGeralPage() {
                     disableButton={!showChartManifestsReceivedSentFromAT}
                     setDisableButton={()=> handleShowChartManifestsReceivedSentFromAT()}
                 >
-                    {/* <ChartColumnBig className="w-4 h-4 text-white"/> Gráfico                      */}
                     Gráfico <span className="material-icons">leaderboard</span>
                 </SwitchButton>
                 <SwitchButton
                     disableButton={!showListManifestsReceivedSentFromAT}
                     setDisableButton={()=> handleShowListManifestsReceivedSentFromAT()}
                 >
-                    {/* <List className="w-4 h-4 text-white"/> Manifestos */}
                     Manifestos <span className="material-icons">list_alt</span>
                 </SwitchButton>
                 <SwitchButton
                     disableButton={!showTableATOriginDetails}
                     setDisableButton={()=> handleShowTableATOriginDetails()}
                 >
-                    {/* <Sheet className="w-4 h-4 text-white"/> Detalhes da origem */}
                     Detalhes da origem<span className="material-icons">feed</span>
                 </SwitchButton>
                 <SwitchButton
                     disableButton={!showTableManifestsReceivedSentFromAT}
                     setDisableButton={()=> handleShowTableManifestsReceivedSentFromAT()}
                 >
-                    {/* <Sheet className="w-4 h-4 text-white"/> Detalhes da destinação */}
                     Detalhes da destinação<span className="material-icons">feed</span>
                 </SwitchButton>
                 <a href="#topo">
@@ -453,7 +448,6 @@ export default function VisaoGeralPage() {
                         setDisableButton={()=> {}}
 
                     >
-                        {/* <ArrowUp /> */}
                         Ir para o topo
                         <span className="material-icons">arrow_upward</span>
                     </SwitchButton>
@@ -527,14 +521,12 @@ export default function VisaoGeralPage() {
                     disableButton={!showChartManifestsReceivedSentFromTheGeneratorAndAT}
                     setDisableButton={()=> handleShowChartManifestsReceivedSentFromTheGeneratorAndAT()}
                 >
-                    {/* <ChartColumnBig className="w-4 h-4 text-white"/> Gráfico   */}
                     Gráfico <span className="material-icons">leaderboard</span>                   
                 </SwitchButton>
                 <SwitchButton
                     disableButton={!showListManifestsReceivedSentFromTheGeneratorAndAT}
                     setDisableButton={()=> handleShowListManifestsReceivedSentFromTheGeneratorAndAT()}
                 >
-                    {/* <List className="w-4 h-4 text-white"/> Manifestos */}
                     Manifestos <span className="material-icons">list_alt</span>
                 </SwitchButton>
                 {
@@ -552,7 +544,6 @@ export default function VisaoGeralPage() {
                             disableButton={showListManifestsReceivedSentFromTheGeneratorAndAT}
                             setDisableButton={()=> {}}
                         >
-                            {/* <Download /> Baixar */}
                             Download <span className="material-icons">picture_as_pdf</span>
                         </SwitchButton>
                 }
@@ -560,7 +551,6 @@ export default function VisaoGeralPage() {
                     disableButton={!showTableDetailsManifestsReceivedSentFromTheGeneratorAndAT}
                     setDisableButton={()=> handleShowTableDetailsManifestsReceivedSentFromTheGeneratorAndAT()}
                 >
-                    {/* <Sheet className="w-4 h-4 text-white"/> Detalhes da origem */}
                     Detalhes da origem <span className="material-icons">feed</span>
                 </SwitchButton>
                 {
@@ -570,7 +560,7 @@ export default function VisaoGeralPage() {
                             disableButton={showTableDetailsManifestsReceivedSentFromTheGeneratorAndAT}
                             setDisableButton={()=> {}}
                             onClick={()=> {
-                                const preparedData = prepareDataForPdf(agruparPorGerador([
+                                const preparedData = prepararDadosParaPdf(agruparPorGerador([
                                     ...filtrarTudoComDataDeRecebimentoDentroDoPeriodo(detailedReferencePeriodListGerador || [], dateFrom, dateTo), 
                                     ...filtrarTudoComDataDeRecebimentoDentroDoPeriodo(detailedReferencePeriodListAT || [], dateFrom, dateTo)
                                 ]), "Gerador")
@@ -583,7 +573,6 @@ export default function VisaoGeralPage() {
                                 )
                             }}
                         >
-                            {/* <Download /> Baixar PDF */}
                             Download <span className="material-icons">picture_as_pdf</span>
                         </SwitchButton>
                 }
@@ -591,7 +580,6 @@ export default function VisaoGeralPage() {
                     disableButton={!showTableManifestsReceivedSentFromTheGeneratorAndAT}
                     setDisableButton={()=> handleShowTableManifestsReceivedSentFromTheGeneratorAndAT()}
                 >
-                    {/* <Sheet className="w-4 h-4 text-white"/> Detalhes da destinação */}
                     Detalhes da destinação<span className="material-icons">feed</span>
                 </SwitchButton>
                 {
@@ -601,7 +589,7 @@ export default function VisaoGeralPage() {
                             disableButton={showTableManifestsReceivedSentFromTheGeneratorAndAT}
                             setDisableButton={()=> {}}
                             onClick={()=> {
-                                const preparedData = prepareDataForPdf(agruparPorDestinador([
+                                const preparedData = prepararDadosParaPdf(agruparPorDestinador([
                                     ...filtrarTudoComDataDeRecebimentoDentroDoPeriodo(detailedReferencePeriodListGerador || [], dateFrom, dateTo), 
                                     ...filtrarTudoComDataDeRecebimentoDentroDoPeriodo(detailedReferencePeriodListAT || [], dateFrom, dateTo)
                                 ]), "Destinador")
@@ -614,7 +602,6 @@ export default function VisaoGeralPage() {
                                 )
                             }}
                         >
-                            {/* <Download /> Baixar PDF */}
                             Download <span className="material-icons">picture_as_pdf</span>
                         </SwitchButton>
                 }
@@ -625,7 +612,6 @@ export default function VisaoGeralPage() {
                         setDisableButton={()=> {}}
 
                     >
-                        {/* <ArrowUp /> */}
                         Ir para o topo
                         <span className="material-icons">arrow_upward</span>
                     </SwitchButton>
