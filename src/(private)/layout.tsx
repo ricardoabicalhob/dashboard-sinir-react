@@ -124,7 +124,6 @@ function SubMenuBar({ perfil } :SubMenuBarProps) {
 }
 
 export default function PrivateLayout() {
-  console.log("PrivateLayout: INICIANDO Renderização/Potencial Remontagem.")
 
   const { loginResponse, isLoadingAuth } = useContext(AuthContext)
 
