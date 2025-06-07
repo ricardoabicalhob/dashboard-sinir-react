@@ -12,7 +12,6 @@ import { Toaster } from "sonner";
 import { useLocation } from "react-router-dom";
 import ScrollToTopButton from "@/components/scrollToTopButton";
 
-//testando alterações
 interface MenuBarProps {
   loginResponse :LoginResponseI | undefined
 }
@@ -125,18 +124,20 @@ function SubMenuBar({ perfil } :SubMenuBarProps) {
 }
 
 export default function PrivateLayout() {
+  console.log("PrivateLayout: INICIANDO Renderização/Potencial Remontagem.")
 
   const { loginResponse, isLoadingAuth } = useContext(AuthContext)
 
   const navigate = useNavigate()
 
   useEffect(()=> {
-      if (!loginResponse) {
-        navigate('/sign-in', {replace: true})
-      }
+    if(!loginResponse) {
+      console.log("erro no loginResponse")
+    }
   }, [loginResponse, navigate])
 
   if(isLoadingAuth) {
+    console.log("erro no isLoadingAuth")
     return null
   }
 
