@@ -7,7 +7,7 @@ import { AuthContext } from "@/contexts/auth.context";
 import type { LoginResponseI } from "@/interfaces/login.interface";
 import logoGestao from "../public/new-logo-2-com-texto.png"
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { Link, Navigate, Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { Toaster } from "sonner";
 import { useLocation } from "react-router-dom";
 import ScrollToTopButton from "@/components/scrollToTopButton";
