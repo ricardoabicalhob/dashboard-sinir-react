@@ -225,14 +225,12 @@ export default function GeradorPage() {
                     disableButton={!hideChartManifestsIssued}
                     setDisableButton={()=> handleShowChartManifestsIssued()}
                 >
-                    {/* <ChartColumnBig className="w-4 h-4 text-white"/> Gráfico                      */}
                     Gráfico <span className="material-icons">leaderboard</span>
                 </SwitchButton>
                 <SwitchButton
                     disableButton={hideChartManifestsIssued}
                     setDisableButton={()=> handleShowListManifestsIssued()}
                 >
-                    {/* <List className="w-4 h-4 text-white"/> Manifestos */}
                     Manifestos <span className="material-icons">list_alt</span>
                 </SwitchButton>
                 {
@@ -249,7 +247,6 @@ export default function GeradorPage() {
                                 ["Número MTR", "Data Emissão", "Armazenador Temporário", "Destinador", "Resíduo", "Quantidade Indicada no MTR", "Situação"]
                             )}
                         >
-                            {/* <Download /> Baixar PDF */}
                             Download <span className="material-icons">picture_as_pdf</span>
                         </SwitchButton>
                 }
@@ -283,14 +280,12 @@ export default function GeradorPage() {
                     disableButton={!hideChartManifestsReceived}
                     setDisableButton={()=> handleShowChartManifestsReceived()}
                 >
-                    {/* <ChartColumnBig className="w-4 h-4 text-white"/> Gráfico                      */}
                     Gráfico <span className="material-icons">leaderboard</span>
                 </SwitchButton>
                 <SwitchButton
                     disableButton={hideChartManifestsReceived}
                     setDisableButton={()=> handleShowListManifestsReceived()}
                 >
-                    {/* <List className="w-4 h-4 text-white"/> Manifestos */}
                     Manifestos <span className="material-icons">list_alt</span>
                 </SwitchButton>
                 {
@@ -306,7 +301,6 @@ export default function GeradorPage() {
                                 agruparPorDestinador(filtrarTudoComDataDeRecebimentoDentroDoPeriodo(detailedReferencePeriodList || [], dateFrom, dateTo))
                             )}
                         >
-                            {/* <Download /> Baixar PDF */}
                             Download <span className="material-icons">picture_as_pdf</span>
                         </SwitchButton>
                 }
@@ -340,14 +334,12 @@ export default function GeradorPage() {
                     disableButton={!hideChartManifestsPending}
                     setDisableButton={()=> handleShowChartManifestsPending()}
                 >
-                    {/* <ChartColumnBig className="w-4 h-4 text-white"/> Gráfico                      */}
                     Gráfico <span className="material-icons">leaderboard</span>
                 </SwitchButton>
                 <SwitchButton
                     disableButton={hideChartManifestsPending}
                     setDisableButton={()=> handleShowListManifestsPending()}
                 >
-                    {/* <List className="w-4 h-4 text-white"/> Manifestos */}
                     Manifestos <span className="material-icons">list_alt</span>
                 </SwitchButton>
                 {
@@ -364,7 +356,6 @@ export default function GeradorPage() {
                                 ["Número MTR", "Data Emissão", "Armazenador Temporário", "Destinador", "Resíduo", "Quantidade Indicada no MTR", "Data Recebimento AT"]
                             )}
                         >
-                            {/* <Download /> Baixar PDF */}
                             Download <span className="material-icons">picture_as_pdf</span>
                         </SwitchButton>
                 }

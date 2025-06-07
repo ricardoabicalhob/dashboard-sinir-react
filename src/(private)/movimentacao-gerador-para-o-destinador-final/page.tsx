@@ -227,14 +227,12 @@ export default function MovimentacaoParaDFPage() {
                     disableButton={!showChartManifestsReceived}
                     setDisableButton={()=> handleShowChartManifestsReceived()}
                 >
-                    {/* <ChartColumnBig className="w-4 h-4 text-white"/> Gráfico                      */}
                     Gráfico <span className="material-icons">leaderboard</span>
                 </SwitchButton>
                 <SwitchButton
                     disableButton={!showListManifestsReceived}
                     setDisableButton={()=> handleShowListManifestsReceived()}
                 >
-                    {/* <List className="w-4 h-4 text-white"/> Manifestos */}
                     Manifestos <span className="material-icons">list_alt</span>
                 </SwitchButton>
                 {
@@ -250,7 +248,6 @@ export default function MovimentacaoParaDFPage() {
                             disableButton={showListManifestsReceived}
                             setDisableButton={()=> handleShowListManifestsReceived()}
                         >
-                            {/* <Download /> Baixar PDF */}
                             Download <span className="material-icons">picture_as_pdf</span>
                         </SwitchButton>
                 }
@@ -258,7 +255,6 @@ export default function MovimentacaoParaDFPage() {
                     disableButton={!showTableManifestsReceived}
                     setDisableButton={()=> handleShowTableManifestsReceived()}
                 >
-                    {/* <Sheet className="w-4 h-4 text-white"/> Detalhes da destinação */}
                     Detalhes da destinação <span className="material-icons">feed</span>
                 </SwitchButton>
                 {
@@ -278,7 +274,6 @@ export default function MovimentacaoParaDFPage() {
                                 )
                             }}
                         >
-                            {/* <Download /> Baixar PDF */}
                             Download <span className="material-icons">picture_as_pdf</span>
                         </SwitchButton>
                 }
@@ -312,14 +307,12 @@ export default function MovimentacaoParaDFPage() {
                     disableButton={!hideChartManifestsPending}
                     setDisableButton={()=> handleShowChartManifestsPending()}
                 >
-                    {/* <ChartColumnBig className="w-4 h-4 text-white"/> Gráfico                      */}
                     Gráfico <span className="material-icons">leaderboard</span>
                 </SwitchButton>
                 <SwitchButton
                     disableButton={hideChartManifestsPending}
                     setDisableButton={()=> handleShowListManifestsPending()}
                 >
-                    {/* <List className="w-4 h-4 text-white"/> Manifestos */}
                     Manifestos <span className="material-icons">list_alt</span>
                 </SwitchButton>
                 {
@@ -336,7 +329,6 @@ export default function MovimentacaoParaDFPage() {
                             disableButton={!hideChartManifestsPending}
                             setDisableButton={()=> {}}
                         >
-                            {/* <Download /> Baixar PDF */}
                             Download <span className="material-icons">picture_as_pdf</span>
                         </SwitchButton>
                 }
