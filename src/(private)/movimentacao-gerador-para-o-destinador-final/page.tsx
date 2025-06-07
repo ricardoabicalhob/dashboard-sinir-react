@@ -282,19 +282,7 @@ export default function MovimentacaoParaDFPage() {
                             Download <span className="material-icons">picture_as_pdf</span>
                         </SwitchButton>
                 }
-                <a href="#topo">
-                    <SwitchButton
-                        className="bg-gray-400 hover:bg-gray-400/50"
-                        disableButton={false}
-                        setDisableButton={()=> {}}
-
-                    >
-                        {/* <ArrowUp /> */}
-                        Ir para o topo
-                        <span className="material-icons">arrow_upward</span>
-                    </SwitchButton>
-                </a>
-
+                
             </Switch>
 
             <div id="pendentes"/>
@@ -352,18 +340,6 @@ export default function MovimentacaoParaDFPage() {
                             Download <span className="material-icons">picture_as_pdf</span>
                         </SwitchButton>
                 }
-                <a href="#topo">
-                    <SwitchButton
-                        className="bg-gray-400 hover:bg-gray-400/50"
-                        disableButton={false}
-                        setDisableButton={()=> {}}
-
-                    >
-                        {/* <ArrowUp /> */}
-                        Ir para o topo
-                        <span className="material-icons">arrow_upward</span>
-                    </SwitchButton>
-                </a>
 
             </Switch>
 

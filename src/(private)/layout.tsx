@@ -10,6 +10,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { Toaster } from "sonner";
 import { useLocation } from "react-router-dom";
+import ScrollToTopButton from "@/components/scrollToTopButton";
 
 interface MenuBarProps {
   loginResponse :LoginResponseI | undefined
@@ -156,6 +157,7 @@ export default function PrivateLayout() {
                 </main>
                 
                 <Toaster />
+                <ScrollToTopButton />
               </div>
             </TooltipProvider>
         </QueryClientProvider>
