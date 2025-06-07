@@ -47,7 +47,6 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <AuthProvider>
           <QueryClientProvider client={queryClient}>
             <Routes>
-              {/* <Route path='/' element={<Navigate to={'/sign-in'} replace />} /> */}
               <Route path='/sign-in' element={<SignIn />} />
               
               <Route path='/' element={<RootRedirector />} />
@@ -59,16 +58,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
                 <Route path='/movimentacao-gerador-para-o-armazenador-temporario' element={<MovimentacaoParaATPage />} />
                 <Route path='/movimentacao-gerador-para-o-destinador-final' element={<MovimentacaoParaDFPage />} />
               </Route>
-              {/* <Route path='/' element={<PrivateLayout />} >
-                <Route index element={<Navigate to={'/gerador'} replace />} />
-                
-                <Route path='/gerador' element={<GeradorPage />} />
-                <Route path='/destinador' element={<DestinadorPage />} />
-                <Route path='/movimentacao-para-o-destinador-final' element={<VisaoGeralPage />} />
-                <Route path='/armazenador-temporario' element={<ArmazenadorTemporarioPage />} />
-                <Route path='/movimentacao-gerador-para-o-armazenador-temporario' element={<MovimentacaoParaATPage />} />
-                <Route path='/movimentacao-gerador-para-o-destinador-final' element={<MovimentacaoParaDFPage />} />
-              </Route> */}
+
+              <Route path='*' element={<Navigate to="/sign-in" replace />} />
             </Routes>
           </QueryClientProvider> 
           <Toaster />

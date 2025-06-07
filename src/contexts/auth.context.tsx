@@ -1,5 +1,3 @@
-console.log("--- TESTE VITE: MÓDULO auth.context.tsx CARREGADO ---")
-
 import type { LoginResponseI } from "@/interfaces/login.interface";
 import { getAuthToken, removeAuthToken } from "@/repositories/localStorageAuth";
 import { createContext, useCallback, useEffect, useMemo, useState, type Dispatch, type ReactNode, type SetStateAction } from "react";
@@ -22,7 +20,6 @@ interface AuthContextProps {
 export const AuthContext = createContext({} as AuthContextProps)
 
 export function AuthProvider({ children } :AuthProviderProps) {
-    console.log("AuthProvider: INICIANDO Renderização/Potencial Remontagem.")
 
     const [ token, setToken ] = useState<string>()
     const [ loginResponse, setLoginResponse ] = useState<LoginResponseI>()
@@ -31,14 +28,12 @@ export function AuthProvider({ children } :AuthProviderProps) {
     const location = useLocation()
 
     const logout = useCallback(()=> {
-        console.log("Auth: ---- logout() chamado: REMOVENDO AUTENTICAÇÃO ----")
         removeAuthToken()
         setToken(undefined)
         setLoginResponse(undefined)
     }, [])
 
     const initialize = useCallback(async ()=> {
-        console.log("3. initialize() CHAMADA: Iniciando processo de autenticação.")
         try {
             const authToken = getAuthToken()
             if(!authToken) {
@@ -63,13 +58,11 @@ export function AuthProvider({ children } :AuthProviderProps) {
             console.error("Erro na inicialização da autenticação:", error)
             logout()
         } finally {
-            console.log("9. initialize() FINALIZADA. isLoadingAuth:", isLoadingAuth, "loginResponse:", loginResponse ? 'DEFINIDO' : 'UNDEFINED')
             setIsLoadingAuth(false)
         }
     }, [logout])
 
     useEffect(()=> {
-        console.log("2. AuthProvider useEffect: Executando. Chamando initialize().")
         initialize()
     }, [initialize, location.pathname])
 
@@ -79,8 +72,6 @@ export function AuthProvider({ children } :AuthProviderProps) {
         isLoadingAuth,
         logout
     }), [token, setToken, initialize, loginResponse, setLoginResponse, isLoadingAuth, logout])
-
-    console.log(`Auth: AuthProvider renderizado. isLoadingAuth: ${isLoadingAuth}, loginResponse: ${loginResponse ? 'DEFINIDO' : 'UNDEFINED'}`)
 
     return(
         <AuthContext.Provider value={contextValue}>

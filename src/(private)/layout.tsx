@@ -7,7 +7,7 @@ import { AuthContext } from "@/contexts/auth.context";
 import type { LoginResponseI } from "@/interfaces/login.interface";
 import logoGestao from "../public/new-logo-2-com-texto.png"
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, Navigate, Outlet, useNavigate } from "react-router-dom";
 import { Toaster } from "sonner";
 import { useLocation } from "react-router-dom";
 import ScrollToTopButton from "@/components/scrollToTopButton";
@@ -124,20 +124,18 @@ function SubMenuBar({ perfil } :SubMenuBarProps) {
 }
 
 export default function PrivateLayout() {
-  console.log("PrivateLayout: INICIANDO Renderização/Potencial Remontagem.")
 
   const { loginResponse, isLoadingAuth } = useContext(AuthContext)
 
   const navigate = useNavigate()
 
   useEffect(()=> {
-    if(!loginResponse) {
-      console.log("erro no loginResponse")
-    }
+      if (!loginResponse) {
+        navigate('/sign-in', {replace: true})
+      }
   }, [loginResponse, navigate])
 
   if(isLoadingAuth) {
-    console.log("erro no isLoadingAuth")
     return null
   }
 
