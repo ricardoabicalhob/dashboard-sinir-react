@@ -12,6 +12,7 @@ import { Toaster } from "sonner";
 import { useLocation } from "react-router-dom";
 import ScrollToTopButton from "@/components/scrollToTopButton";
 
+//testando alterações
 interface MenuBarProps {
   loginResponse :LoginResponseI | undefined
 }
