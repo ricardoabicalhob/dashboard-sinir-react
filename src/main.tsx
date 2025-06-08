@@ -47,9 +47,10 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <AuthProvider>
           <QueryClientProvider client={queryClient}>
             <Routes>
+              <Route path='/' element={<RootRedirector />} />
+              
               <Route path='/sign-in' element={<SignIn />} />
               
-              <Route path='/' element={<RootRedirector />} />
               <Route element={<PrivateLayout />}>
                 <Route path='/gerador' element={<GeradorPage />} />
                 <Route path='/destinador' element={<DestinadorPage />} />

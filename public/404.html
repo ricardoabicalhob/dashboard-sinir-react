@@ -5,18 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página Não Encontrada - Redirecionando...</title>
 
-    <meta http-equiv="refresh" content="0; url=/dashboard-sinir-react/sign-in">
+    <meta http-equiv="refresh" content="0; url=/dashboard-sinir-react/">
 
     <script type="text/javascript">
         // Redirecionamento via JavaScript (Fallback e mais flexível)
-        // Este script garante que o redirecionamento aconteça mesmo se o meta refresh falhar.
         var pathSegments = window.location.pathname.split('/');
-        // Assumimos que o nome do repositório é o segundo segmento na URL do GitHub Pages (ex: /username/repo-name/)
         var repoName = '';
         if (pathSegments.length > 1 && pathSegments[1] !== '') {
             repoName = pathSegments[1];
         }
-        var targetUrl = '/' + repoName + '/sign-in';
+        // Altera o targetUrl para a BASE do seu aplicativo
+        var targetUrl = '/' + repoName + '/';
 
         // Usar replace() é melhor para redirecionamento, pois não mantém a página de erro no histórico
         window.location.replace(targetUrl);
@@ -60,8 +59,8 @@
 <body>
     <div class="container">
         <h1>Página Não Encontrada</h1>
-        <p>Você será redirecionado para a página de login.</p>
-        <p>Se não for redirecionado automaticamente, clique <a href="/dashboard-sinir-react/sign-in">aqui</a>.</p>
+        <p>Você será redirecionado.</p>
+        <p>Se não for redirecionado automaticamente, clique <a href="/dashboard-sinir-react/">aqui</a>.</p>
     </div>
 </body>
 </html>
