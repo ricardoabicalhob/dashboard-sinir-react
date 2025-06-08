@@ -115,7 +115,7 @@ export default function DateRangePicker({ dateRange, setDateRange } :DateRangePi
                             autoFocus
                             mode="range"
                             showOutsideDays={false}
-                            hidden={{after: new Date(Date.now())}}
+                            // hidden={{after: new Date(Date.now())}}
                             defaultMonth={field.value?.from}
                             selected={field.value}
                             onSelect={field.onChange}
