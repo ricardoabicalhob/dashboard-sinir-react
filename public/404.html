@@ -1,53 +1,67 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redirecionando...</title>
+    <title>Página Não Encontrada - Redirecionando...</title>
+
+    <meta http-equiv="refresh" content="0; url=/dashboard-sinir-react/sign-in">
+
     <script type="text/javascript">
-        // Pega o nome do repositório da URL atual (e.g., de "seu-usuario.github.io/meu-repo/rota")
-        // Retorna "/meu-repo/"
-        const getBasePath = () => {
-            const pathParts = window.location.pathname.split('/');
-            // Se o site for de projeto (e.g. user.github.io/repo-name)
-            // A segunda parte da URL (índice 1) é o nome do repositório
-            if (pathParts.length > 1 && pathParts[1] && window.location.hostname.endsWith('.github.io') && pathParts[1] !== '') {
-                return `/${pathParts[1]}/`;
-            }
-            // Se for um site de usuário/organização (e.g. user.github.io) ou local
-            return '/';
-        };
-        const basePath = getBasePath();
+        // Redirecionamento via JavaScript (Fallback e mais flexível)
+        // Este script garante que o redirecionamento aconteça mesmo se o meta refresh falhar.
+        var pathSegments = window.location.pathname.split('/');
+        // Assumimos que o nome do repositório é o segundo segmento na URL do GitHub Pages (ex: /username/repo-name/)
+        var repoName = '';
+        if (pathSegments.length > 1 && pathSegments[1] !== '') {
+            repoName = pathSegments[1];
+        }
+        var targetUrl = '/' + repoName + '/sign-in';
 
-        // Salva a URL original no sessionStorage para que o React Router possa usá-la
-        // Isso é um truque para o React Router saber qual rota tentar após o redirecionamento
-        sessionStorage.setItem('redirect', window.location.href);
-
-        // Redireciona para a página inicial do aplicativo
-        window.location.replace(basePath);
+        // Usar replace() é melhor para redirecionamento, pois não mantém a página de erro no histórico
+        window.location.replace(targetUrl);
     </script>
+
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f2f5;
+            color: #333;
+            text-align: center;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #00695C;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 1.1em;
+        }
+        a {
+            color: #00695C;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <p>Se você não for redirecionado automaticamente, clique <a id="redirectLink" href="/">aqui</a>.</p>
-    <script>
-        // Atualiza o link para refletir o basePath correto
-        document.getElementById('redirectLink').href = getBasePath();
-    </script>
+    <div class="container">
+        <h1>Página Não Encontrada</h1>
+        <p>Você será redirecionado para a página de login.</p>
+        <p>Se não for redirecionado automaticamente, clique <a href="/dashboard-sinir-react/sign-in">aqui</a>.</p>
+    </div>
 </body>
-</html> -->
-
-<!doctype html>
-<html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gestão de Resíduos - Integrada ao SINIR</title>
-  </head>
-  <body id="topo">
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
 </html>
