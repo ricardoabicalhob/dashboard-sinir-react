@@ -112,9 +112,10 @@ export default function DateRangePicker({ dateRange, setDateRange } :DateRangePi
                         </PopoverTrigger>
                         <PopoverContent className="w-auto p-0" align="start">
                         <Calendar
-                            initialFocus
+                            autoFocus
                             mode="range"
-                            toDate={new Date(Date.now())}
+                            showOutsideDays={false}
+                            hidden={{after: new Date(Date.now())}}
                             defaultMonth={field.value?.from}
                             selected={field.value}
                             onSelect={field.onChange}
