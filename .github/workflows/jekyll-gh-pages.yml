@@ -31,7 +31,7 @@ jobs:
           cache: 'npm'       # ou 'yarn', 'pnpm' dependendo do seu gerenciador de pacotes
 
       - name: Instalar Dependências
-        run: npm install # ou 'yarn install', 'pnpm install'
+        run: npm install --force # ou 'yarn install', 'pnpm install'
 
       - name: Fazer o Build do Projeto Vite
         run: npm run build # ou 'yarn build', 'pnpm build'
