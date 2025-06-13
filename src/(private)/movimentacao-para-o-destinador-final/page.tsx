@@ -19,7 +19,7 @@ import { useContext, useEffect, useMemo, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 import TabelaDemonstrativaCompleta from "@/components/tabelaDemonstrativaCompleta"
 
-export default function VisaoGeralPage() {
+export default function DestinacaoAgrupada() {
 
     const { 
         token,
@@ -196,7 +196,7 @@ export default function VisaoGeralPage() {
     } = useQuery<MTRResponseI[], Error>({
         queryKey: ['mtrDetailsGerador', 1, allMtrsGerador],
         queryFn: async ()=> await getMtrDetails(allMtrsGerador || [], profile?.objetoResposta.token || ""),
-        enabled: !!extendedPeriodListGerador && !!profile?.objetoResposta.token,
+        enabled: !!extendedPeriodListMoreGerador && !!profile?.objetoResposta.token,
     })
 
     const {

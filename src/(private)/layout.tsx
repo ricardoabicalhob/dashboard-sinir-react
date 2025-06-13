@@ -11,6 +11,7 @@ import { Link, Outlet, useNavigate } from "react-router-dom";
 import { Toaster } from "sonner";
 import { useLocation } from "react-router-dom";
 import ScrollToTopButton from "@/components/scrollToTopButton";
+import YearSelectPicker from "@/components/yearSelectPicker";
 
 interface MenuBarProps {
   loginResponse :LoginResponseI | undefined
@@ -85,7 +86,11 @@ function SubMenuBar({ perfil } :SubMenuBarProps) {
 
   return(
     <div className="flex items-center px-2 border-b border-b-gray-200 divide-x divide-gray-300 h-12 w-full bg-white">
-      <DateRangePicker dateRange={dateRange} setDateRange={setDateRange}/>
+      {pathname === "/visao-geral-destinacao"
+      ?
+      <YearSelectPicker />
+      :
+      <DateRangePicker disableCalendar={pathname === "/visao-geral-destinacao"} dateRange={dateRange} setDateRange={setDateRange}/>}
 
       { perfil.gerador &&
         (pathname === `/gerador` ?
@@ -104,8 +109,8 @@ function SubMenuBar({ perfil } :SubMenuBarProps) {
 
       { perfil.gerador && perfil.armazenadorTemporario &&
         (pathname === `/movimentacao-para-o-destinador-final` ?
-        <span className="text-[#00BCD4] font-normal leading-relaxed select-none pl-2">Movimentação para o destinador final</span> :
-        <Link to="/movimentacao-para-o-destinador-final" className="font-light pl-2">Movimentação para o destinador final</Link>  
+        <span className="text-[#00BCD4] font-normal leading-relaxed select-none px-2">Movimentação para o destinador final</span> :
+        <Link to="/movimentacao-para-o-destinador-final" className="font-light px-2">Movimentação para o destinador final</Link>  
         ) }
 
       { !perfil.destinador && !perfil.armazenadorTemporario &&
@@ -118,6 +123,12 @@ function SubMenuBar({ perfil } :SubMenuBarProps) {
         (pathname === `/movimentacao-gerador-para-o-destinador-final` ?
         <span className="text-[#00BCD4] font-normal leading-relaxed select-none pl-2">Minhas movimentações para o destinador final</span> :
         <Link to="/movimentacao-gerador-para-o-destinador-final" className="font-light pl-2">Minhas movimentações para o destinador final</Link>  
+        ) }
+
+      { perfil.gerador && perfil.armazenadorTemporario &&
+        (pathname === `/visao-geral-destinacao` ?
+        <span className="text-[#00BCD4] font-normal leading-relaxed select-none pl-2">Visão geral</span> :
+        <Link to="/visao-geral-destinacao" className="font-light pl-2">Visão geral</Link>  
         ) }      
     </div>
   )

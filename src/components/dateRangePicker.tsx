@@ -26,9 +26,10 @@ type periodoSchema = z.infer<typeof periodoSchema>
 interface DateRangePickerProps {
     dateRange :DateRange
     setDateRange :Dispatch<SetStateAction<DateRange>>
+    disableCalendar :boolean
 }
 
-export default function DateRangePicker({ dateRange, setDateRange } :DateRangePickerProps) {
+export default function DateRangePicker({ dateRange, setDateRange, disableCalendar = false } :DateRangePickerProps) {
     const [ open, setOpen ] = useState(false)
     const [ defaultStartDate, setDefaultStartDate ] = useState<DateRange | undefined>({
         from: dateRange.from,
@@ -79,13 +80,13 @@ export default function DateRangePicker({ dateRange, setDateRange } :DateRangePi
     return(
         <Form {...form}>
             <form id="formPeriodo" onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 pr-2">
-                <FormField 
+                <FormField
                 control={form.control}
                 name="dateRange"
                 render={({ field })=> (
                     <FormItem className="flex flex-col">
                     <Popover open={open}>
-                        <PopoverTrigger asChild>
+                        <PopoverTrigger asChild disabled={disableCalendar}>
                         <Button
                             id="date"
                             variant={"outline"}

@@ -59,3 +59,14 @@ export function separarPorMaiusculas(str: string): string {
 export function removerCaracteresNaoNumericos (value: string) {
     return value.replace(/\D/g, '')
 }
+
+export function obterMesAtual() {
+    const meses = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"]
+
+    const hoje = new Date()
+    const mesCorrente = hoje.getMonth()
+    const anoCorrente = hoje.getFullYear()
+    const mesCorrenteKey = `${meses[mesCorrente]}/${anoCorrente}`
+
+    return mesCorrenteKey as string
+}

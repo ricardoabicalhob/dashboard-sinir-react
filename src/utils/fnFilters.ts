@@ -78,6 +78,69 @@ export function agruparPorGerador(listMtrs: MTRResponseI[]): MTRResponseI[][] {
     return Object.values(grupos);
 }
 
+export interface MTRsByMonth {
+    [key :string] :MTRResponseI[]
+}
+
+export function agruparPorMesDeRecebimento(listMtrs :MTRResponseI[]) :MTRsByMonth{
+    const dadosAgrupados :MTRsByMonth = {}
+    const meses = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"]
+
+    listMtrs.forEach(mtr => {
+        if(mtr.situacaoManifesto && mtr.situacaoManifesto.simDataRecebimento) {
+            const dataRecebimentoString = mtr.situacaoManifesto.simDataRecebimento
+
+            const dataRecebimento = new Date(formatarDataDDMMYYYYParaMMDDYYYY(dataRecebimentoString) ?? "")
+            if(isNaN(dataRecebimento.getTime())) {
+                return
+            }
+
+            const mes = dataRecebimento.getMonth()
+            const ano = dataRecebimento.getFullYear()
+
+            // const mesFormatado = mes < 10 ? `0${mes}` : `${mes}`
+            const mesFormatado = meses[mes]
+            const grupoKey = `${mesFormatado}/${ano}`
+
+            if(!dadosAgrupados[grupoKey]) {
+                dadosAgrupados[grupoKey] = []
+            }
+
+            dadosAgrupados[grupoKey].push(mtr)
+        } else {
+            // console.warn(`MTR ${mtr.manNumero} não possui 'simDataRecebimento'. Ele será ignorado no agrupamento por mês.`)
+        }
+    })
+    return dadosAgrupados
+}
+
+export interface TotaisMensais {
+    mes :string
+    quantidadeRecebida :number
+}
+
+export function totalizarPorMesDeRecebimento(listMtrsAgrupadosPorMes :MTRsByMonth) :TotaisMensais[]{
+    const totaisMensais :TotaisMensais[] = []
+    
+    for(const mesAno in listMtrsAgrupadosPorMes) {
+        if(Object.prototype.hasOwnProperty.call(listMtrsAgrupadosPorMes, mesAno)) {
+            const mtrsDesteMes = listMtrsAgrupadosPorMes[mesAno]
+            let total = 0
+
+            mtrsDesteMes.forEach(mtr => {
+                mtr.listaManifestoResiduo.forEach(residuo => {
+                    if(typeof residuo.marQuantidadeRecebida === 'number' && !isNaN(residuo.marQuantidadeRecebida)) {
+                        total += residuo.marQuantidadeRecebida
+                    }
+                })
+            })
+
+            totaisMensais.push({mes: mesAno, quantidadeRecebida: total})
+        }
+    }
+    return totaisMensais.reverse()
+}
+
 export function filtrarTudoComDataDeEmissaoDentroDoPeriodo(listMtrs :MTRResponseI[], dateFrom :Date, dateTo :Date) {
     const listMtrsFiltered :MTRResponseI[] = []
 

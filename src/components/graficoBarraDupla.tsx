@@ -1,6 +1,6 @@
 import { type ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, CartesianGrid, LabelList, XAxis, YAxis } from "recharts";
 import { type GroupByWasteTypeOutput } from "@/utils/fnFilters";
 import { useEffect, useRef } from "react";
 
@@ -16,14 +16,14 @@ export default function GraficoBarraDupla({ dataChart, title, subTitle, acumulat
     const chartRef = useRef<HTMLDivElement>(null)
 
     const chartConfig = {
-    estimated: {
-        label: "Estimado",
-        color: "#00695C",
-    },
-    real: {
-        label: "Real",
-        color: "#00695C80"
-    }
+        quantidadeIndicadaNoMTR: {
+            label: "Quantidade Indicada no MTR",
+            color: "#00695C",
+        },
+        quantidadeRecebida: {
+            label: "Quantidade Recebida",
+            color: "#00695C80"
+        }
     } satisfies ChartConfig
 
     useEffect(()=> {
@@ -52,7 +52,15 @@ export default function GraficoBarraDupla({ dataChart, title, subTitle, acumulat
         <CardContent>
         <ChartContainer config={chartConfig} className="max-h-[300px] w-full">
             
-            <BarChart data={dataChart}>
+            <BarChart
+                data={dataChart}
+                margin={{
+                    top:20,
+                    bottom: 0,
+                    left: 0,
+                    right: 0
+                }}    
+            >
                 <CartesianGrid vertical={false}/>
                 <XAxis
                     className="select-none"
@@ -61,7 +69,42 @@ export default function GraficoBarraDupla({ dataChart, title, subTitle, acumulat
                     tickMargin={10}
                     fontSize={12}
                     axisLine={false}
+                    // interval={0} //mostra todos os rotulos
                     tickFormatter={(value)=>value}
+                    // tick={({ x, y, payload }) => {
+                    //     const label = payload.value;
+                    //     // Ajuste estas larguras e alturas conforme a largura das suas barras e o comprimento dos seus rótulos
+                    //     const foreignObjectWidth = 200; // Largura máxima que o rótulo pode ocupar antes de quebrar
+                    //     const foreignObjectHeight = 30; // Altura máxima que o rótulo pode ocupar (para 2-3 linhas)
+
+                    //     return (
+                    //         <foreignObject
+                    //             x={x - foreignObjectWidth / 2} // Centraliza o foreignObject horizontalmente no tick
+                    //             y={y + 5} // Ajusta a posição Y abaixo da linha do eixo
+                    //             width={foreignObjectWidth}
+                    //             height={foreignObjectHeight}
+                    //         >
+                    //             <div
+                    //                 style={{
+                    //                     fontSize: '12px', // Mesma fonte do XAxis
+                    //                     color: '#888888', // Cor do texto
+                    //                     textAlign: 'center', // Alinhamento do texto dentro do foreignObject
+                    //                     whiteSpace: 'nowrap', // CRUCIAL para a quebra de linha automática
+                    //                     textWrap: "nowrap",
+                    //                     overflow: 'hidden', // Opcional: esconde se o texto transbordar demais
+                    //                     textOverflow: 'ellipsis', // Opcional: adiciona '...' se o texto for cortado
+                    //                     display: 'block', // Para centralizar o texto verticalmente se ele não preencher toda a altura
+                    //                     alignItems: "center", // Para centralizar o texto verticalmente
+                    //                     justifyContent: 'center', // Para centralizar o texto horizontalmente
+                    //                     height: '100%', // Para que o div preencha a altura do foreignObject
+                    //                     width: '100%' // Para que o div preencha a largura do foreignObject
+                    //                 }}
+                    //             >
+                    //                 {label}
+                    //             </div>
+                    //         </foreignObject>
+                    //     );
+                    // }}
                 />
 
                 <YAxis 
@@ -73,22 +116,38 @@ export default function GraficoBarraDupla({ dataChart, title, subTitle, acumulat
                 />
 
                 <ChartTooltip content={<ChartTooltipContent/>}/>
-                <ChartLegend content={<ChartLegendContent/>}/>
+                <ChartLegend content={<ChartLegendContent />}/>
                 <CartesianGrid vertical={false}/>
 
                 <Bar
                     dataKey="quantidadeIndicadaNoMTR"
-                    fill="var(--color-estimated)"
+                    fill="var(--color-quantidadeIndicadaNoMTR)"
                     radius={[4, 4, 0, 0]}
                     barSize={100}
-                />
+                >
+                    <LabelList
+                        dataKey="quantidadeIndicadaNoMTR" // Qual dado será exibido como rótulo
+                        position="top" // Posição do rótulo (pode ser "top", "inside", "bottom", etc.)
+                        formatter={(value: number) => value.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} // Formato do valor
+                        fill="#000"
+                        fontSize={10}
+                    />
+                </Bar>
 
                 <Bar
                     dataKey="quantidadeRecebida"
-                    fill="var(--color-real)"
+                    fill="var(--color-quantidadeRecebida)"
                     radius={[4, 4, 0, 0]}
                     barSize={100}
-                />
+                >
+                    <LabelList
+                        dataKey="quantidadeRecebida" // Qual dado será exibido como rótulo
+                        position="top" // Posição do rótulo (pode ser "top", "inside", "bottom", etc.)
+                        formatter={(value: number) => value.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} // Formato do valor
+                        fill="#000"
+                        fontSize={10}
+                    />
+                </Bar>
             </BarChart>
 
         </ChartContainer>

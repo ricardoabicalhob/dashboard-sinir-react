@@ -20,10 +20,11 @@ import PrivateLayout from './(private)/layout.tsx'
 import { AuthContext, AuthProvider } from './contexts/auth.context.tsx'
 import GeradorPage from './(private)/gerador/page.tsx'
 import DestinadorPage from './(private)/destinador/page.tsx'
-import VisaoGeralPage from './(private)/movimentacao-para-o-destinador-final/page.tsx'
+import DestinacaoAgrupada from './(private)/movimentacao-para-o-destinador-final/page.tsx'
 import ArmazenadorTemporarioPage from './(private)/armazenador-temporario/page.tsx'
 import MovimentacaoParaATPage from './(private)/movimentacao-gerador-para-o-armazenador-temporario/page.tsx'
 import MovimentacaoParaDFPage from './(private)/movimentacao-gerador-para-o-destinador-final/page.tsx'
+import VisaoGeral from './(private)/dashboard/page.tsx'
 
 const basename = import.meta.env.BASE_URL
 
@@ -50,11 +51,12 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
               <Route path='/' element={<RootRedirector />} />
               
               <Route path='/sign-in' element={<SignIn />} />
-              
+
               <Route element={<PrivateLayout />}>
+                <Route path='/visao-geral-destinacao' element={<VisaoGeral />} />
                 <Route path='/gerador' element={<GeradorPage />} />
                 <Route path='/destinador' element={<DestinadorPage />} />
-                <Route path='/movimentacao-para-o-destinador-final' element={<VisaoGeralPage />} />
+                <Route path='/movimentacao-para-o-destinador-final' element={<DestinacaoAgrupada />} />
                 <Route path='/armazenador-temporario' element={<ArmazenadorTemporarioPage />} />
                 <Route path='/movimentacao-gerador-para-o-armazenador-temporario' element={<MovimentacaoParaATPage />} />
                 <Route path='/movimentacao-gerador-para-o-destinador-final' element={<MovimentacaoParaDFPage />} />
