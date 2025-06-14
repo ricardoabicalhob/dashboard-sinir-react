@@ -121,6 +121,11 @@ export interface TotaisMensais {
 
 export function totalizarPorMesDeRecebimento(listMtrsAgrupadosPorMes :MTRsByMonth) :TotaisMensais[]{
     const totaisMensais :TotaisMensais[] = []
+
+    const abreviacaoMesParaNumero :{ [key :string]: number } = {
+        "Jan": 1, "Fev": 2, "Mar": 3, "Abr": 4, "Mai": 5, "Jun": 6,
+        "Jul": 7, "Ago": 8, "Set": 9, "Out": 10, "Nov": 11, "Dez": 12
+    }
     
     for(const mesAno in listMtrsAgrupadosPorMes) {
         if(Object.prototype.hasOwnProperty.call(listMtrsAgrupadosPorMes, mesAno)) {
@@ -138,7 +143,18 @@ export function totalizarPorMesDeRecebimento(listMtrsAgrupadosPorMes :MTRsByMont
             totaisMensais.push({mes: mesAno, quantidadeRecebida: total})
         }
     }
-    return totaisMensais.reverse()
+
+    totaisMensais.sort((a, b)=> {
+        const [abreviacaoMesA] = a.mes.split("/")
+        const [abreviacaoMesB] = b.mes.split("/")
+
+        const numMesA = abreviacaoMesParaNumero[abreviacaoMesA]
+        const numMesB = abreviacaoMesParaNumero[abreviacaoMesB]
+
+        return numMesA - numMesB
+    })
+
+    return totaisMensais
 }
 
 export function filtrarTudoComDataDeEmissaoDentroDoPeriodo(listMtrs :MTRResponseI[], dateFrom :Date, dateTo :Date) {

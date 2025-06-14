@@ -33,8 +33,10 @@ export default function VisaoGeral() {
     const dateToTrimestre2 = subDays(dateFromTrimestre3, 1)
     const dateFromTrimestre1 = subDays(dateFromTrimestre2, 90)
     const dateToTrimestre1 = subDays(dateFromTrimestre2, 1)
-    const dateFromUltimoTrimestreAnoAnterior = subDays(dateFromTrimestre1, 90)
-    const dateToUltimoTrimestreAnoAnterior = subDays(dateFromTrimestre1, 1)
+    const dateFromTrimestre4AnoAnterior = subDays(dateFromTrimestre1, 90)
+    const dateToTrimestre4AnoAnterior = subDays(dateFromTrimestre1, 1)
+    const dateFromTrimestre3_ultimos10dias_AnoAnterior = subDays(dateFromTrimestre4AnoAnterior, 10)
+    const dateToTrimestre3_ultimos10dias_AnoAnterior = subDays(dateFromTrimestre3_ultimos10dias_AnoAnterior, 1)
 
     const [ profile, setProfile ] = useState<LoginResponseI>()
     const [ dataGraficoPizza, setDataGraficoPizza ] = useState<GroupByWasteTypeOutput[]>()
@@ -45,10 +47,6 @@ export default function VisaoGeral() {
             setProfile(loginResponse)
         }
     }, [loginResponse])
-
-    useEffect(()=> {
-        console.log(dataGraficoPizza)
-    }, [dataGraficoPizza])
 
     const { 
         data: referencePeriodTrimestre4_ListGerador, 
@@ -99,13 +97,25 @@ export default function VisaoGeral() {
     })
     
     const {
-        data: referencePeriodUltimoTrimestreAnoAnterior_ListGerador,
-        isSuccess: isSuccessListGerador_ultimoTrimestreAnoAnterior,
-        isError: isErrorListGerador_ultimoTrimestreAnoAnterior,
-        error: errorListGerador_ultimoTrimestreAnoAnterior
+        data: referencePeriodTrimestre4_AnoAnterior_ListGerador,
+        isSuccess: isSuccessListGerador_trimestre4_AnoAnterior,
+        isError: isErrorListGerador_trimestre4_AnoAnterior,
+        error: errorListGerador_trimestre4_AnoAnterior
     } = useQuery<MTRResponseI[], Error>({
-        queryKey: ['referencePeriodListMtrsGerador', 4, dateFromUltimoTrimestreAnoAnterior],
-        queryFn: async ()=> await getMtrList("Gerador", formatarDataParaAPI(dateFromUltimoTrimestreAnoAnterior), formatarDataParaAPI(dateToUltimoTrimestreAnoAnterior), profile?.objetoResposta.token || "", "Todos", profile?.objetoResposta.parCodigo, ["Salvo", "Recebido", "Armaz Temporário", "Armaz Temporário - Recebido"]),
+        queryKey: ['referencePeriodListMtrsGerador', 5, dateFromTrimestre4AnoAnterior],
+        queryFn: async ()=> await getMtrList("Gerador", formatarDataParaAPI(dateFromTrimestre4AnoAnterior), formatarDataParaAPI(dateToTrimestre4AnoAnterior), profile?.objetoResposta.token || "", "Todos", profile?.objetoResposta.parCodigo, ["Salvo", "Recebido", "Armaz Temporário", "Armaz Temporário - Recebido"]),
+        refetchOnWindowFocus: false,
+        enabled: !!profile?.objetoResposta.token && !!profile,
+    })
+
+    const {
+        data: referencePeriodTrimestre3_ultimos10dias_AnoAnterior_ListGerador,
+        isSuccess: isSuccessListGerador_trimestre3_ultimos10dias_AnoAnterior,
+        isError: isErrorListGerador_trimestre3_ultimos10dias_AnoAnterior,
+        error: errorListGerador_trimestre3_ultimos10dias_AnoAnterior
+    } = useQuery<MTRResponseI[], Error>({
+        queryKey: ['referencePeriodListMtrsGerador', 6, dateFromTrimestre3_ultimos10dias_AnoAnterior],
+        queryFn: async ()=> await getMtrList("Gerador", formatarDataParaAPI(dateFromTrimestre3_ultimos10dias_AnoAnterior), formatarDataParaAPI(dateToTrimestre3_ultimos10dias_AnoAnterior), profile?.objetoResposta.token || "", "Todos", profile?.objetoResposta.parCodigo, ["Salvo", "Recebido", "Armaz Temporário", "Armaz Temporário - Recebido"]),
         refetchOnWindowFocus: false,
         enabled: !!profile?.objetoResposta.token && !!profile,
     })
@@ -116,14 +126,16 @@ export default function VisaoGeral() {
             ...referencePeriodTrimestre3_ListGerador ?? [], 
             ...referencePeriodTrimestre2_ListGerador ?? [], 
             ...referencePeriodTrimestre1_ListGerador ?? [], 
-            ...referencePeriodUltimoTrimestreAnoAnterior_ListGerador ?? []
+            ...referencePeriodTrimestre4_AnoAnterior_ListGerador ?? [],
+            ...referencePeriodTrimestre3_ultimos10dias_AnoAnterior_ListGerador ?? []
         ];
     }, [
             referencePeriodTrimestre4_ListGerador, 
             referencePeriodTrimestre3_ListGerador, 
             referencePeriodTrimestre2_ListGerador, 
             referencePeriodTrimestre1_ListGerador, 
-            referencePeriodUltimoTrimestreAnoAnterior_ListGerador
+            referencePeriodTrimestre4_AnoAnterior_ListGerador,
+            referencePeriodTrimestre3_ultimos10dias_AnoAnterior_ListGerador
         ]
     );
     
@@ -135,7 +147,7 @@ export default function VisaoGeral() {
     } = useQuery<MTRResponseI[], Error>({
         queryKey: ['mtrDetailsGerador', 1, allMtrsGerador],
         queryFn: async ()=> await getMtrDetails(allMtrsGerador || [], profile?.objetoResposta.token || ""),
-        enabled: !!referencePeriodUltimoTrimestreAnoAnterior_ListGerador && !!profile?.objetoResposta.token,
+        enabled: !!referencePeriodTrimestre3_ultimos10dias_AnoAnterior_ListGerador && !!profile?.objetoResposta.token,
     })
 
     const {
@@ -187,13 +199,25 @@ export default function VisaoGeral() {
     })
    
     const {
-        data: referencePeriodUltimoTrimestreAnoAnterior_ListAT,
-        isSuccess: isSuccessListAT_ultimoTrimestreAnoAnterior,
-        isError: isErrorListAT_ultimoTrimestreAnoAnterior,
-        error: errorListAT_ultimoTrimestreAnoAnterior
+        data: referencePeriodTrimestre4_AnoAnterior_ListAT,
+        isSuccess: isSuccessListAT_trimestre4_AnoAnterior,
+        isError: isErrorListAT_trimestre4_AnoAnterior,
+        error: errorListAT_trimestre4_AnoAnterior
     } = useQuery<MTRResponseI[], Error>({
-        queryKey: ['referencePeriodListMtrsAT', 5, dateFromUltimoTrimestreAnoAnterior, dateToUltimoTrimestreAnoAnterior],
-        queryFn: async ()=> await getMtrList("Armazenador Temporário", formatarDataParaAPI(dateFromUltimoTrimestreAnoAnterior), formatarDataParaAPI(dateToUltimoTrimestreAnoAnterior), token || "", "Todos", profile?.objetoResposta.parCodigo, ["Armaz Temporário", "Armaz Temporário - Recebido", "Recebido"]),
+        queryKey: ['referencePeriodListMtrsAT', 5, dateFromTrimestre4AnoAnterior, dateToTrimestre4AnoAnterior],
+        queryFn: async ()=> await getMtrList("Armazenador Temporário", formatarDataParaAPI(dateFromTrimestre4AnoAnterior), formatarDataParaAPI(dateToTrimestre4AnoAnterior), token || "", "Todos", profile?.objetoResposta.parCodigo, ["Armaz Temporário", "Armaz Temporário - Recebido", "Recebido"]),
+        refetchOnWindowFocus: false,
+        enabled: !!token && !!profile
+    })
+
+    const {
+        data: referencePeriodTrimestre3_ultimos10dias_AnoAnterior_ListAT,
+        isSuccess: isSuccessListAT_trimestre3_ultimos10dias_AnoAnterior,
+        isError: isErrorListAT_trimestre3_ultimos10dias_AnoAnterior,
+        error: errorListAT_trimestre3_ultimos10dias_AnoAnterior
+    } = useQuery<MTRResponseI[], Error>({
+        queryKey: ['referencePeriodListMtrsAT', 6, dateFromTrimestre3_ultimos10dias_AnoAnterior, dateToTrimestre3_ultimos10dias_AnoAnterior],
+        queryFn: async ()=> await getMtrList("Armazenador Temporário", formatarDataParaAPI(dateFromTrimestre3_ultimos10dias_AnoAnterior), formatarDataParaAPI(dateToTrimestre3_ultimos10dias_AnoAnterior), token || "", "Todos", profile?.objetoResposta.parCodigo, ["Armaz Temporário", "Armaz Temporário - Recebido", "Recebido"]),
         refetchOnWindowFocus: false,
         enabled: !!token && !!profile
     })
@@ -204,14 +228,16 @@ export default function VisaoGeral() {
                 ...referencePeriodTrimestre3_ListAT ?? [], 
                 ...referencePeriodTrimestre2_ListAT ?? [], 
                 ...referencePeriodTrimestre1_ListAT ?? [], 
-                ...referencePeriodUltimoTrimestreAnoAnterior_ListAT ?? []
+                ...referencePeriodTrimestre4_AnoAnterior_ListAT ?? [],
+                ...referencePeriodTrimestre3_ultimos10dias_AnoAnterior_ListAT ?? []
             ];
         }, [
             referencePeriodTrimestre4_ListAT, 
             referencePeriodTrimestre3_ListAT, 
             referencePeriodTrimestre2_ListAT, 
             referencePeriodTrimestre1_ListAT, 
-            referencePeriodUltimoTrimestreAnoAnterior_ListAT
+            referencePeriodTrimestre4_AnoAnterior_ListAT,
+            referencePeriodTrimestre3_ultimos10dias_AnoAnterior_ListAT
         ]
     );
 
@@ -223,12 +249,12 @@ export default function VisaoGeral() {
     } = useQuery<MTRResponseI[], Error>({
         queryKey: ['mtrDetailsAT', 1, allMtrsAT],
         queryFn: async ()=> await getMtrDetails(allMtrsAT || [], token || ""),
-        enabled: !!referencePeriodTrimestre4_ListAT && !!referencePeriodTrimestre3_ListAT && !!referencePeriodTrimestre2_ListAT && !!referencePeriodTrimestre1_ListAT && !!referencePeriodUltimoTrimestreAnoAnterior_ListAT
+        enabled: !!referencePeriodTrimestre4_ListAT && !!referencePeriodTrimestre3_ListAT && !!referencePeriodTrimestre2_ListAT && !!referencePeriodTrimestre1_ListAT && !!referencePeriodTrimestre4_AnoAnterior_ListAT && !!referencePeriodTrimestre3_ultimos10dias_AnoAnterior_ListAT
     })
 
-    const isLoadingGerador = !isSuccessListGerador_trimestre4 || !isSuccessListGerador_trimestre3 || !isSuccessListGerador_trimestre2 || !isSuccessListGerador_trimestre1 || !isSuccessListGerador_ultimoTrimestreAnoAnterior;
-    const isErrorGerador = isErrorListGerador_trimestre4 || isErrorListGerador_trimestre3 || isErrorListGerador_trimestre2 || isErrorListGerador_trimestre1 || isErrorListGerador_ultimoTrimestreAnoAnterior;
-    const errorGerador = errorListGerador_trimestre4 || errorListGerador_trimestre3 || errorListGerador_trimestre2 || errorListGerador_trimestre1 || errorListGerador_ultimoTrimestreAnoAnterior;
+    const isLoadingGerador = !isSuccessListGerador_trimestre4 || !isSuccessListGerador_trimestre3 || !isSuccessListGerador_trimestre2 || !isSuccessListGerador_trimestre1 || !isSuccessListGerador_trimestre4_AnoAnterior || !isSuccessListGerador_trimestre3_ultimos10dias_AnoAnterior;
+    const isErrorGerador = isErrorListGerador_trimestre4 || isErrorListGerador_trimestre3 || isErrorListGerador_trimestre2 || isErrorListGerador_trimestre1 || isErrorListGerador_trimestre4_AnoAnterior || isErrorListGerador_trimestre3_ultimos10dias_AnoAnterior;
+    const errorGerador = errorListGerador_trimestre4 || errorListGerador_trimestre3 || errorListGerador_trimestre2 || errorListGerador_trimestre1 || errorListGerador_trimestre4_AnoAnterior || errorListGerador_trimestre3_ultimos10dias_AnoAnterior;
     
     if (isLoadingGerador) return <CustomMessage message="Carregando lista de MTRs do Gerador..."/>
     if (isErrorGerador && errorGerador) return <p className="flex w-full justify-center text-center bg-red-400">Erro ao carregar lista de MTRs: {errorGerador.message}</p>;
@@ -238,9 +264,9 @@ export default function VisaoGeral() {
 
 
 
-    const isLoadingAT = !isSuccessListAT_trimestre4 || !isSuccessListAT_trimestre3 || !isSuccessListAT_trimestre2 || !isSuccessListAT_trimestre1 || !isSuccessListAT_ultimoTrimestreAnoAnterior;
-    const isErrorAT = isErrorListAT_trimestre4 || isErrorListAT_trimestre3 || isErrorListAT_trimestre2 || isErrorListAT_trimestre1 || isErrorListAT_ultimoTrimestreAnoAnterior;
-    const errorAT = errorListAT_trimestre4 || errorListAT_trimestre3 || errorListAT_trimestre2 || errorListAT_trimestre1 || errorListAT_ultimoTrimestreAnoAnterior;
+    const isLoadingAT = !isSuccessListAT_trimestre4 || !isSuccessListAT_trimestre3 || !isSuccessListAT_trimestre2 || !isSuccessListAT_trimestre1 || !isSuccessListAT_trimestre4_AnoAnterior || !isSuccessListAT_trimestre3_ultimos10dias_AnoAnterior;
+    const isErrorAT = isErrorListAT_trimestre4 || isErrorListAT_trimestre3 || isErrorListAT_trimestre2 || isErrorListAT_trimestre1 || isErrorListAT_trimestre4_AnoAnterior || isErrorListAT_trimestre3_ultimos10dias_AnoAnterior;
+    const errorAT = errorListAT_trimestre4 || errorListAT_trimestre3 || errorListAT_trimestre2 || errorListAT_trimestre1 || errorListAT_trimestre4_AnoAnterior || errorListAT_trimestre3_ultimos10dias_AnoAnterior;
     
     if (isLoadingAT) return <CustomMessage message="Carregando lista de MTRs do Armazenamento Temporário..."/>
     if (isErrorAT && errorAT) return <p className="flex w-full justify-center text-center bg-red-400">Erro ao carregar lista de MTRs do Armazenamento Temporário: {errorAT.message}</p>;

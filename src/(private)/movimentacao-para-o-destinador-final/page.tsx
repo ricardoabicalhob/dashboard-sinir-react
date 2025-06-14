@@ -464,7 +464,7 @@ export default function DestinacaoAgrupada() {
             }
 
             {!showTableDetailsManifestsReceivedSentFromTheGeneratorAndAT &&
-                (!!filtrarTudoComDataDeRecebimentoDentroDoPeriodo(detailedReferencePeriodListAT || [], dateFrom, dateTo).length &&
+                (!!filtrarTudoComDataDeRecebimentoDentroDoPeriodo(detailedReferencePeriodListAT || [], dateFrom, dateTo).length ||
                  !!filtrarTudoComDataDeRecebimentoDentroDoPeriodo(detailedReferencePeriodListGerador || [], dateFrom, dateTo).length) &&
                     <>
                         <TabelaDemonstrativaCompleta

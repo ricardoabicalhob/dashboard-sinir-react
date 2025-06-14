@@ -45,17 +45,17 @@ export default function YearSelectPicker() {
 
 
   return (
-    <div className="pr-2">
+    <div className="pr-2 text-black/80">
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="w-[180px] justify-between"
+            className="w-[300px] justify-between"
           >
             <div className="flex w-full items-center gap-3">
-              <Calendar className="w-4 h-4 text-black" />
+              <Calendar className="w-4 h-4 text-black/80" />
               {anoSelecionado
                 ? allYears.find((ano) => ano.value === `${anoSelecionado}`)?.label
                 : "Selecione o ano..."}

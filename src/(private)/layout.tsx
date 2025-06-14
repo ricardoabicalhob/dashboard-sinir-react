@@ -107,12 +107,6 @@ function SubMenuBar({ perfil } :SubMenuBarProps) {
         <span className="text-[#00695C] font-normal leading-relaxed select-none px-2">Destinador</span> :
         <Link to="/destinador" className="font-light px-2">Destinador</Link>) }
 
-      { perfil.gerador && perfil.armazenadorTemporario &&
-        (pathname === `/movimentacao-para-o-destinador-final` ?
-        <span className="text-[#00BCD4] font-normal leading-relaxed select-none px-2">Movimentação para o destinador final</span> :
-        <Link to="/movimentacao-para-o-destinador-final" className="font-light px-2">Movimentação para o destinador final</Link>  
-        ) }
-
       { !perfil.destinador && !perfil.armazenadorTemporario &&
         (pathname === `/movimentacao-gerador-para-o-armazenador-temporario` ?
         <span className="text-[#00BCD4] font-normal leading-relaxed select-none px-2">Minhas movimentações para o armazenamento temporário</span> :
@@ -126,10 +120,21 @@ function SubMenuBar({ perfil } :SubMenuBarProps) {
         ) }
 
       { perfil.gerador && perfil.armazenadorTemporario &&
-        (pathname === `/visao-geral-destinacao` ?
-        <span className="text-[#00BCD4] font-normal leading-relaxed select-none pl-2">Visão geral</span> :
-        <Link to="/visao-geral-destinacao" className="font-light pl-2">Visão geral</Link>  
-        ) }      
+        <div className="divide-x bg-gray-100 pr-2 rounded-r-md">
+          { 
+            (pathname === `/movimentacao-para-o-destinador-final` ?
+            <span className="text-[#00BCD4] font-normal leading-relaxed select-none px-2">Movimentação para o destinador final</span> :
+            <Link to="/movimentacao-para-o-destinador-final" className="font-light leading-relaxed px-2">Movimentação para o destinador final</Link>  
+            ) }
+
+          { 
+            (pathname === `/visao-geral-destinacao` ?
+            <span className="text-[#00BCD4] font-normal leading-relaxed select-none pl-2">Visão geral</span> :
+            <Link to="/visao-geral-destinacao" className="font-light leading-relaxed pl-2">Visão geral</Link>  
+            ) }
+        </div>
+      }
+            
     </div>
   )
 }

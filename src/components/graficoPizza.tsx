@@ -57,7 +57,7 @@ export function GraficoPizza({ dataChart, mesSelecionado, titulo } :GraficoPizza
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
-        <CardTitle>{titulo}</CardTitle>
+        <CardTitle className="text-lg sm:text-xl">{titulo}</CardTitle>
         <CardDescription>{mesSelecionado}</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 flex items-end py-0 justify-center">
