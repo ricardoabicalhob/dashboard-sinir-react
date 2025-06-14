@@ -1,5 +1,5 @@
 import { format } from "date-fns"
-import type { GroupByWasteTypeOutput } from "./fnFilters";
+import type { GroupByWasteTypeOutput, TotaisMensais } from "./fnFilters";
 
 export function subtrairDatasEmDias(initialDate :Date, finalDate :Date) {
     const tempoInicial = initialDate.getTime();
@@ -69,4 +69,25 @@ export function obterMesAtual() {
     const mesCorrenteKey = `${meses[mesCorrente]}/${anoCorrente}`
 
     return mesCorrenteKey as string
+}
+
+export function ordenarMesesDeTotaisMensais(totaisMensais :TotaisMensais[], ordem :"crescente" | "decrescente") {
+    const abreviacaoMesParaNumero :{ [key :string]: number } = {
+        "Jan": 1, "Fev": 2, "Mar": 3, "Abr": 4, "Mai": 5, "Jun": 6,
+        "Jul": 7, "Ago": 8, "Set": 9, "Out": 10, "Nov": 11, "Dez": 12
+    }
+
+    return totaisMensais.sort((a, b)=> {
+        const [abreviacaoMesA] = a.mes.split("/")
+        const [abreviacaoMesB] = b.mes.split("/")
+        let mesesOrdenados = 0
+
+        const numMesA = abreviacaoMesParaNumero[abreviacaoMesA]
+        const numMesB = abreviacaoMesParaNumero[abreviacaoMesB]
+
+        if(ordem === "crescente") mesesOrdenados = numMesA - numMesB
+        if(ordem === "decrescente") mesesOrdenados = numMesB - numMesA
+
+        return mesesOrdenados
+    })
 }

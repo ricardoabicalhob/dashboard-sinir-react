@@ -40,6 +40,17 @@ export default function GraficoAnualBarras({ dataChart, dataMTRs, title, subTitl
         }, 100)
     }, [])
 
+    useEffect(()=> {
+        if(dataMTRs && dataChart && Object.keys(dataMTRs).length > 0 && Object.keys(dataChart).length > 0) {
+            const mes :string | undefined = dataChart.find((_, index)=> {
+                        return index === dataChart.length - 1
+                    })?.mes
+            if(mes) {
+                handleSetDataResiduos(agruparPorTipoDeResiduo(dataMTRs[mes]), mes)
+            }
+        }
+    }, [])
+
     return(
     <Card ref={chartRef} className="w-full md:w-[100%] max-w-full justify-self-center opacity-0 transition-opacity duration-1000">
         <CardHeader>

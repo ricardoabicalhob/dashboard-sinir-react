@@ -53,6 +53,22 @@ export function GraficoPizza({ dataChart, mesSelecionado, titulo } :GraficoPizza
         return dynamicConfig
     }, [dataChart])
 
+    if(dataChart.length === 0) {
+        return(
+            <Card className="flex flex-col">
+                <CardHeader className="items-center pb-0">
+                    <CardTitle className="text-lg sm:text-xl">{titulo}</CardTitle>
+                    <CardDescription>{mesSelecionado}</CardDescription>
+                </CardHeader>
+                <CardContent className="flex-1 flex">
+                        <div className="flex flex-col gap-2 w-full h-full items-center justify-center">
+                            <span className="material-symbols-outlined text-gray-300 text-6xl">donut_small</span>
+                            <span className="text-gray-500 text-center font-light text-sm">Para visualizar clique nas barras do gráfico de destinação total de resíduos por mês</span>
+                        </div>
+                </CardContent>
+            </Card>
+        )    
+    }
 
   return (
     <Card className="flex flex-col">
