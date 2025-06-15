@@ -52,7 +52,7 @@ export default function YearSelectPicker() {
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="w-[300px] justify-between"
+            className="w-[300px] justify-between focus-visible:border-none focus-visible:ring-0"
           >
             <div className="flex w-full items-center gap-3">
               <Calendar className="w-4 h-4 text-black/80" />
@@ -84,6 +84,7 @@ export default function YearSelectPicker() {
                     } else {
                         if (inputValue.length === 4) { // Verifica se é um número inteiro válido
                             setAnoSelecionado(inputValue);
+                            setOpen(false)
                         } else if (inputValue === "") {
                             // setAnoSelecionado(anoCorrente.toString()); // Ou outro valor padrão
                         }       

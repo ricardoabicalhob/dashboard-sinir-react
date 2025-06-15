@@ -6,7 +6,7 @@ const ScrollToTopButton :React.FC = () => {
 
     const handleScroll = useCallback(() => {
         const scrollTop = window.scrollY ?? document.documentElement.scroll ?? 0
-        if(scrollTop > 200) {
+        if(scrollTop > 150) {
             setShowButton(true)
         } else {
             setShowButton(false)
