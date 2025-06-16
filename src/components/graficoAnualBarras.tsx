@@ -49,7 +49,7 @@ export default function GraficoAnualBarras({ dataChart, dataMTRs, title, subTitl
                 handleSetDataResiduos(agruparPorTipoDeResiduo(dataMTRs[mes]), mes)
             }
         }
-    }, [])
+    }, [subTitle])
 
     return(
     <Card ref={chartRef} className="w-full md:w-[100%] max-w-full justify-self-center opacity-0 transition-opacity duration-1000">
@@ -60,7 +60,7 @@ export default function GraficoAnualBarras({ dataChart, dataMTRs, title, subTitl
             </CardTitle>
             {
             subTitle &&
-                <CardTitle className="font-light">{subTitle}</CardTitle>
+                <CardTitle className="font-light">{`Período: ${subTitle}`}</CardTitle>
             }
             <CardTitle>{`Total acumulado: ${acumulated?.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`} <span className="text-xs">T</span></CardTitle>
         </div>

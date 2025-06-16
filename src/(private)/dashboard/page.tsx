@@ -315,7 +315,7 @@ export default function VisaoGeral() {
                                 dateToTrimestre4
                             )
                         )}
-                        subTitle={`Período: ${anoSelecionado}`}
+                        subTitle={anoSelecionado}
                         acumulated={totalizarQuantidadeRecebida(
                             agruparPorTipoDeResiduo(
                                 filtrarTudoComDataDeRecebimentoDentroDoPeriodo(

@@ -97,15 +97,15 @@ function SubMenuBar({ perfil } :SubMenuBarProps) {
         <span className="text-[#00695C] font-normal leading-relaxed px-2 select-none">Gerador</span> :
         <Link to="/gerador" className="font-light px-2">Gerador</Link>) }
       
-      { perfil.armazenadorTemporario &&
-        (pathname === `/armazenador-temporario` ?
-        <span className="text-[#00695C] font-normal leading-relaxed px-2 select-none">Armazenador Temporário</span> :
-        <Link to="/armazenador-temporario" className="font-light px-2">Armazenador Temporário</Link>) }
-      
       { perfil.destinador &&
         (pathname === `/destinador` ?
         <span className="text-[#00695C] font-normal leading-relaxed select-none px-2">Destinador</span> :
         <Link to="/destinador" className="font-light px-2">Destinador</Link>) }
+
+      { perfil.armazenadorTemporario &&
+        (pathname === `/armazenador-temporario` ?
+        <span className="text-[#00695C] font-normal leading-relaxed px-2 select-none">Armazenador Temporário</span> :
+        <Link to="/armazenador-temporario" className="font-light px-2">Armazenador Temporário</Link>) }
 
       { !perfil.destinador && !perfil.armazenadorTemporario &&
         (pathname === `/movimentacao-gerador-para-o-armazenador-temporario` ?
@@ -120,17 +120,17 @@ function SubMenuBar({ perfil } :SubMenuBarProps) {
         ) }
 
       { perfil.gerador && perfil.armazenadorTemporario &&
-        <div className="divide-x bg-gray-100 pr-2 rounded-r-md">
+        <div className="divide-x pr-2">
           { 
             (pathname === `/movimentacao-para-o-destinador-final` ?
-            <span className="text-[#00BCD4] font-normal leading-relaxed select-none px-2">Movimentação para o destinador final</span> :
-            <Link to="/movimentacao-para-o-destinador-final" className="font-light leading-relaxed px-2">Movimentação para o destinador final</Link>  
+            <span className="font-light leading-relaxed select-none px-2 border-b-4 border-b-[#00BCD4]">Movimentação para o destinador final</span> :
+            <Link to="/movimentacao-para-o-destinador-final" className="font-light leading-relaxed px-2 border-b-4 border-b-gray-300">Movimentação para o destinador final</Link>  
             ) }
 
           { 
             (pathname === `/visao-geral-destinacao` ?
-            <span className="text-[#00BCD4] font-normal leading-relaxed select-none pl-2">Visão geral</span> :
-            <Link to="/visao-geral-destinacao" className="font-light leading-relaxed pl-2">Visão geral</Link>  
+            <span className="font-light leading-relaxed select-none px-2 border-b-4 border-b-[#00BCD4]">Visão geral</span> :
+            <Link to="/visao-geral-destinacao" className="font-light leading-relaxed px-2 border-b-4 border-b-gray-300">Visão geral</Link>  
             ) }
         </div>
       }
