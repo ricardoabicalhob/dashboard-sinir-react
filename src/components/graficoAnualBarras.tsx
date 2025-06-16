@@ -4,6 +4,7 @@ import { Bar, BarChart, CartesianGrid, Cell, LabelList, XAxis, YAxis } from "rec
 import { agruparPorTipoDeResiduo, type GroupByWasteTypeOutput, type MTRsByMonth, type TotaisMensais } from "@/utils/fnFilters";
 import { useEffect, useRef, type Dispatch, type SetStateAction } from "react";
 import { obterMesAtual } from "@/utils/fnUtils";
+import type { MTRResponseI } from "@/interfaces/mtr.interface";
 
 interface GraficoProps {
     title :string
@@ -24,6 +25,19 @@ export default function GraficoAnualBarras({ dataChart, dataMTRs, title, subTitl
         setMesSelecionado(mes)
     }
 
+    const handleSetDataResiduosFullYear = (data :MTRsByMonth) :MTRResponseI[] => {
+        const fullYearData :MTRResponseI[] = []
+        if(data) {
+            const keysData = Object.keys(data)
+            keysData.forEach(key => {
+                data[key].forEach(mtr => {
+                    fullYearData.push(mtr)
+                })
+            })
+        }
+        return fullYearData
+    }
+
     const chartConfig = {
         quantidadeRecebida: {
             label: "Quantidade Recebida",
@@ -38,6 +52,9 @@ export default function GraficoAnualBarras({ dataChart, dataMTRs, title, subTitl
                 chartRef.current.classList.add("opacity-100")
             }
         }, 100)
+        if(dataMTRs) {
+            handleSetDataResiduosFullYear(dataMTRs)
+        }
     }, [])
 
     useEffect(()=> {
@@ -46,7 +63,8 @@ export default function GraficoAnualBarras({ dataChart, dataMTRs, title, subTitl
                         return index === dataChart.length - 1
                     })?.mes
             if(mes) {
-                handleSetDataResiduos(agruparPorTipoDeResiduo(dataMTRs[mes]), mes)
+                // handleSetDataResiduos(agruparPorTipoDeResiduo(dataMTRs[mes]), mes)
+                handleSetDataResiduos(agruparPorTipoDeResiduo(handleSetDataResiduosFullYear(dataMTRs)), subTitle ?? "")
             }
         }
     }, [subTitle])
@@ -66,7 +84,7 @@ export default function GraficoAnualBarras({ dataChart, dataMTRs, title, subTitl
         </div>
         </CardHeader>
         <CardContent>
-        <ChartContainer config={chartConfig} className="max-h-[300px] w-full">
+        <ChartContainer config={chartConfig} className="max-h-[350px] w-full">
             
             <BarChart 
                 data={dataChart}

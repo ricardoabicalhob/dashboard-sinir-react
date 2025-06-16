@@ -79,7 +79,7 @@ export function GraficoPizza({ dataChart, mesSelecionado, titulo } :GraficoPizza
       <CardContent className="flex-1 flex items-end py-0 justify-center">
         <ChartContainer
           config={chartConfig}
-          className="mx-auto aspect-square max-h-[350px] flex-1"
+          className="mx-auto aspect-square h-fit min-h-[371px] max-h-[400px] flex-1"
         >
           <PieChart>
             <Pie 
@@ -100,7 +100,7 @@ export function GraficoPizza({ dataChart, mesSelecionado, titulo } :GraficoPizza
                         dominantBaseline={props.dominantBaseline}
                         fill="#000"
                     >
-                        {payload.quantidadeRecebida.toLocaleString("pt-BR", {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+                        {payload.quantidadeRecebida.toLocaleString("pt-BR", {minimumFractionDigits: 3, maximumFractionDigits: 3})}
                     </text>
                 )
               }}
