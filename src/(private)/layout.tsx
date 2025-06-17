@@ -86,7 +86,7 @@ function SubMenuBar({ perfil } :SubMenuBarProps) {
 
   return(
     <div className="flex items-center px-2 border-b border-b-gray-200 divide-x divide-gray-300 h-12 w-full bg-white">
-      {pathname === "/visao-geral-destinacao"
+      {pathname === "/visao-geral-destinacao" || pathname === "/movimentacao-gerador-para-o-destinador-final-visao-geral"
       ?
       <YearSelectPicker />
       :
@@ -114,10 +114,20 @@ function SubMenuBar({ perfil } :SubMenuBarProps) {
         ) }
 
       { !perfil.destinador && !perfil.armazenadorTemporario &&
-        (pathname === `/movimentacao-gerador-para-o-destinador-final` ?
-        <span className="text-[#00BCD4] font-normal leading-relaxed select-none pl-2">Minhas movimentações para o destinador final</span> :
-        <Link to="/movimentacao-gerador-para-o-destinador-final" className="font-light pl-2">Minhas movimentações para o destinador final</Link>  
-        ) }
+        <div className="divide-x pr-2">
+          {
+            (pathname === `/movimentacao-gerador-para-o-destinador-final` ?
+            <span className="font-light leading-relaxed select-none px-2 border-b-4 border-b-[#00BCD4]">Minhas movimentações para o destinador final</span> :
+            <Link to="/movimentacao-gerador-para-o-destinador-final" className="font-light px-2 border-b-4 border-b-gray-300">Minhas movimentações para o destinador final</Link>  
+            ) }
+          
+          {
+            (pathname === `/movimentacao-gerador-para-o-destinador-final-visao-geral` ?
+            <span className="font-light leading-relaxed select-none px-2 border-b-4 border-b-[#00BCD4]">Visão geral</span> :
+            <Link to="/movimentacao-gerador-para-o-destinador-final-visao-geral" className="font-light px-2 border-b-4 border-b-gray-300">Visão geral</Link>  
+            ) }
+        </div>
+      }
 
       { perfil.gerador && perfil.armazenadorTemporario &&
         <div className="divide-x pr-2">

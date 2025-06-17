@@ -25,6 +25,7 @@ import ArmazenadorTemporarioPage from './(private)/armazenador-temporario/page.t
 import MovimentacaoParaATPage from './(private)/movimentacao-gerador-para-o-armazenador-temporario/page.tsx'
 import MovimentacaoParaDFPage from './(private)/movimentacao-gerador-para-o-destinador-final/page.tsx'
 import VisaoGeral from './(private)/dashboard/page.tsx'
+import MovimetacaoGeradorParaDestinadorFinalVisaoGeral from './(private)/movimentacao-gerador-para-o-destinador-final-visao-geral/page.tsx'
 
 const basename = import.meta.env.BASE_URL
 
@@ -34,7 +35,7 @@ const RootRedirector = ()=> {
   if(isLoadingAuth) {
     return <div>Carregando autenticação...</div>
   }
-
+ 
   if(!!loginResponse) {
     return <Navigate to="/gerador" replace />
   }
@@ -60,6 +61,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
                 <Route path='/armazenador-temporario' element={<ArmazenadorTemporarioPage />} />
                 <Route path='/movimentacao-gerador-para-o-armazenador-temporario' element={<MovimentacaoParaATPage />} />
                 <Route path='/movimentacao-gerador-para-o-destinador-final' element={<MovimentacaoParaDFPage />} />
+                <Route path='/movimentacao-gerador-para-o-destinador-final-visao-geral' element={<MovimetacaoGeradorParaDestinadorFinalVisaoGeral />} />
               </Route>
 
               <Route path='*' element={<Navigate to="/sign-in" replace />} />

@@ -100,7 +100,7 @@ export function GraficoPizza({ dataChart, mesSelecionado, titulo } :GraficoPizza
                         dominantBaseline={props.dominantBaseline}
                         fill="#000"
                     >
-                        {payload.quantidadeRecebida.toLocaleString("pt-BR", {minimumFractionDigits: 3, maximumFractionDigits: 3})}
+                        {`${payload.quantidadeRecebida.toLocaleString("pt-BR", {minimumFractionDigits: 3, maximumFractionDigits: 3})} t`}
                     </text>
                 )
               }}
