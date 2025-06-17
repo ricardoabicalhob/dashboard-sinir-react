@@ -163,12 +163,12 @@ export default function MovimetacaoGeradorParaDestinadorFinalVisaoGeral() {
         <div id="topo" className="flex flex-col gap-6 p-6">
             
             <Scoreboard>
-                <ScoreboardItem>
+                {/* <ScoreboardItem>
                     <ScoreboardTitle>Minha movimentação como gerador para o destinador final</ScoreboardTitle>
                     <ScoreboardSubtitle>{`Período: ${anoSelecionado}`}</ScoreboardSubtitle>
                     <ScoreboardMainText className="text-gray-400">{totalizarQuantidadeRecebida(agruparPorTipoDeResiduo(filtrarTudoComDataDeRecebimentoDentroDoPeriodo(detailedReferencePeriodListGerador || [], dateFromTrimestre1, dateToTrimestre4))).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</ScoreboardMainText>
                     <ScoreboardSubtitle>Quantidade recebida pelo destinador</ScoreboardSubtitle>
-                </ScoreboardItem>
+                </ScoreboardItem> */}
                 
                 <ScoreboardItem>
                     <ScoreboardTitle>Minha movimentação total para destinador final</ScoreboardTitle>
