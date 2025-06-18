@@ -24,6 +24,7 @@ export default function MovimetacaoGeradorParaDestinadorFinalVisaoGeral() {
         anoSelecionado
     } = useContext(SystemContext)
     
+    const primeiroDiaDoAno :Date = new Date(formatarDataDDMMYYYYParaMMDDYYYY(`01/01/${anoSelecionado}`) || "")
     const dateToTrimestre4 :Date = new Date(formatarDataDDMMYYYYParaMMDDYYYY(`31/12/${anoSelecionado}`) || "")
     const dateFromTrimestre4 :Date= new Date(formatarDataDDMMYYYYParaMMDDYYYY((subDays(dateToTrimestre4, 90)).toLocaleDateString()) || "")
     const dateFromTrimestre3 = subDays(dateFromTrimestre4, 90)
@@ -149,6 +150,26 @@ export default function MovimetacaoGeradorParaDestinadorFinalVisaoGeral() {
         enabled: !!referencePeriodTrimestre3_ultimos10dias_AnoAnterior_ListGerador && !!profile?.objetoResposta.token,
     })
 
+    const todosMtrsRecebidosDentroDoPeriodo = useMemo(()=> {
+        return filtrarTudoComDataDeRecebimentoDentroDoPeriodo(detailedReferencePeriodListGerador || [], primeiroDiaDoAno, dateToTrimestre4)
+    }, [detailedReferencePeriodListGerador, anoSelecionado])
+
+    const agrupadosPorTipoDeResiduoGerador = useMemo(() => {
+        return agruparPorTipoDeResiduo(todosMtrsRecebidosDentroDoPeriodo)
+    }, [todosMtrsRecebidosDentroDoPeriodo])
+
+    const totalAcumuladoGerador = useMemo(() => {
+        return totalizarQuantidadeRecebida(agrupadosPorTipoDeResiduoGerador)
+    }, [agrupadosPorTipoDeResiduoGerador])
+
+    const agrupadosPorMes = useMemo(() => {
+        return agruparPorMesDeRecebimento(todosMtrsRecebidosDentroDoPeriodo)
+    }, [todosMtrsRecebidosDentroDoPeriodo])
+
+    const totalChartData = useMemo(() => {
+        return totalizarPorMesDeRecebimento(agrupadosPorMes)
+    }, [agrupadosPorMes])
+
     const isLoadingGerador = !isSuccessListGerador_trimestre4 || !isSuccessListGerador_trimestre3 || !isSuccessListGerador_trimestre2 || !isSuccessListGerador_trimestre1 || !isSuccessListGerador_trimestre4_AnoAnterior || !isSuccessListGerador_trimestre3_ultimos10dias_AnoAnterior;
     const isErrorGerador = isErrorListGerador_trimestre4 || isErrorListGerador_trimestre3 || isErrorListGerador_trimestre2 || isErrorListGerador_trimestre1 || isErrorListGerador_trimestre4_AnoAnterior || isErrorListGerador_trimestre3_ultimos10dias_AnoAnterior;
     const errorGerador = errorListGerador_trimestre4 || errorListGerador_trimestre3 || errorListGerador_trimestre2 || errorListGerador_trimestre1 || errorListGerador_trimestre4_AnoAnterior || errorListGerador_trimestre3_ultimos10dias_AnoAnterior;
@@ -166,16 +187,14 @@ export default function MovimetacaoGeradorParaDestinadorFinalVisaoGeral() {
                 {/* <ScoreboardItem>
                     <ScoreboardTitle>Minha movimentação como gerador para o destinador final</ScoreboardTitle>
                     <ScoreboardSubtitle>{`Período: ${anoSelecionado}`}</ScoreboardSubtitle>
-                    <ScoreboardMainText className="text-gray-400">{totalizarQuantidadeRecebida(agruparPorTipoDeResiduo(filtrarTudoComDataDeRecebimentoDentroDoPeriodo(detailedReferencePeriodListGerador || [], dateFromTrimestre1, dateToTrimestre4))).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</ScoreboardMainText>
+                    <ScoreboardMainText className="text-gray-400">{totalAcumuladoGerador.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</ScoreboardMainText>
                     <ScoreboardSubtitle>Quantidade recebida pelo destinador</ScoreboardSubtitle>
                 </ScoreboardItem> */}
                 
                 <ScoreboardItem>
                     <ScoreboardTitle>Minha movimentação total para destinador final</ScoreboardTitle>
                     <ScoreboardSubtitle>{`Período: ${anoSelecionado}`}</ScoreboardSubtitle>
-                    <ScoreboardMainText>{totalizarQuantidadeRecebida(agruparPorTipoDeResiduo([
-                        ...filtrarTudoComDataDeRecebimentoDentroDoPeriodo(detailedReferencePeriodListGerador || [], dateFromTrimestre1, dateToTrimestre4)
-                    ])).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</ScoreboardMainText>
+                    <ScoreboardMainText>{totalAcumuladoGerador.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</ScoreboardMainText>
                     <ScoreboardSubtitle>Quantidade recebida pelo destinador</ScoreboardSubtitle>
                 </ScoreboardItem>
             </Scoreboard>
@@ -187,34 +206,10 @@ export default function MovimetacaoGeradorParaDestinadorFinalVisaoGeral() {
                         title="Destinação total de resíduos por mês"
                         setDataResiduos={setDataGraficoPizza}
                         setMesSelecionado={setMesSelecionadoGraficoPizza}
-                        dataMTRs={agruparPorMesDeRecebimento(
-                            filtrarTudoComDataDeRecebimentoDentroDoPeriodo(
-                                [...detailedReferencePeriodListGerador ?? []], 
-                                dateFromTrimestre1, 
-                                dateToTrimestre4
-                            )
-                        )}
+                        dataMTRs={agrupadosPorMes}
                         subTitle={anoSelecionado}
-                        acumulated={totalizarQuantidadeRecebida(
-                            agruparPorTipoDeResiduo(
-                                filtrarTudoComDataDeRecebimentoDentroDoPeriodo(
-                                    [...detailedReferencePeriodListGerador ?? []], 
-                                    dateFromTrimestre1, 
-                                    dateToTrimestre4
-                                )
-                            )
-                        )}
-                        dataChart={
-                            totalizarPorMesDeRecebimento(
-                                agruparPorMesDeRecebimento(
-                                    filtrarTudoComDataDeRecebimentoDentroDoPeriodo(
-                                        [...detailedReferencePeriodListGerador ?? []], 
-                                        dateFromTrimestre1, 
-                                        dateToTrimestre4
-                                    )
-                                )
-                            )
-                        }
+                        acumulated={totalAcumuladoGerador}
+                        dataChart={totalChartData}
                     />
                 </div>
 
