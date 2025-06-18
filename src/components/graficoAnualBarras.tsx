@@ -2,7 +2,7 @@ import { type ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, Char
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Bar, BarChart, CartesianGrid, Cell, LabelList, XAxis, YAxis } from "recharts";
 import { agruparPorTipoDeResiduo, type GroupByWasteTypeOutput, type MTRsByMonth, type TotaisMensais } from "@/utils/fnFilters";
-import { useEffect, useRef, type Dispatch, type SetStateAction } from "react";
+import { useCallback, useEffect, useRef, type Dispatch, type SetStateAction } from "react";
 import { obterMesAtual } from "@/utils/fnUtils";
 import type { MTRResponseI } from "@/interfaces/mtr.interface";
 
@@ -20,12 +20,12 @@ export default function GraficoAnualBarras({ dataChart, dataMTRs, title, subTitl
 
     const chartRef = useRef<HTMLDivElement>(null)
 
-    const handleSetDataResiduos = (data :GroupByWasteTypeOutput[], mes :string) => {
+    const handleSetDataResiduos = useCallback((data :GroupByWasteTypeOutput[], mes :string) => {
         setDataResiduos(data)
         setMesSelecionado(mes)
-    }
+    }, [setDataResiduos, setMesSelecionado])
 
-    const handleSetDataResiduosFullYear = (data :MTRsByMonth) :MTRResponseI[] => {
+    const handleSetDataResiduosFullYear = useCallback((data :MTRsByMonth) :MTRResponseI[] => {
         const fullYearData :MTRResponseI[] = []
         if(data) {
             const keysData = Object.keys(data)
@@ -36,7 +36,7 @@ export default function GraficoAnualBarras({ dataChart, dataMTRs, title, subTitl
             })
         }
         return fullYearData
-    }
+    }, [])
 
     const chartConfig = {
         quantidadeRecebida: {
@@ -67,7 +67,7 @@ export default function GraficoAnualBarras({ dataChart, dataMTRs, title, subTitl
                 handleSetDataResiduos(agruparPorTipoDeResiduo(handleSetDataResiduosFullYear(dataMTRs)), subTitle ?? "")
             }
         }
-    }, [subTitle])
+    }, [subTitle, handleSetDataResiduos, handleSetDataResiduosFullYear])
 
     return(
     <Card ref={chartRef} className="w-full md:w-[100%] max-w-full justify-self-center opacity-0 transition-opacity duration-1000">

@@ -25,6 +25,7 @@ export default function VisaoGeral() {
         anoSelecionado
     } = useContext(SystemContext)
     
+    const primeiroDiaDoAno :Date = new Date(formatarDataDDMMYYYYParaMMDDYYYY(`01/01/${anoSelecionado}`) || "")
     const dateToTrimestre4 :Date = new Date(formatarDataDDMMYYYYParaMMDDYYYY(`31/12/${anoSelecionado}`) || "")
     const dateFromTrimestre4 :Date= new Date(formatarDataDDMMYYYYParaMMDDYYYY((subDays(dateToTrimestre4, 90)).toLocaleDateString()) || "")
     const dateFromTrimestre3 = subDays(dateFromTrimestre4, 90)
@@ -252,6 +253,52 @@ export default function VisaoGeral() {
         enabled: !!referencePeriodTrimestre4_ListAT && !!referencePeriodTrimestre3_ListAT && !!referencePeriodTrimestre2_ListAT && !!referencePeriodTrimestre1_ListAT && !!referencePeriodTrimestre4_AnoAnterior_ListAT && !!referencePeriodTrimestre3_ultimos10dias_AnoAnterior_ListAT
     })
 
+    
+    
+    const mtrsFiltradosGerador = useMemo(()=> {
+        return filtrarTudoComDataDeRecebimentoDentroDoPeriodo(detailedReferencePeriodListGerador || [], primeiroDiaDoAno, dateToTrimestre4)
+    }, [detailedReferencePeriodListGerador, anoSelecionado])
+
+    const residuosAgrupadosPorTipoGerador = useMemo(() => {
+        return agruparPorTipoDeResiduo(mtrsFiltradosGerador)
+    }, [mtrsFiltradosGerador])
+
+    const totalAcumuladoGerador = useMemo(() => {
+        return totalizarQuantidadeRecebida(residuosAgrupadosPorTipoGerador)
+    }, [residuosAgrupadosPorTipoGerador])
+
+    const mtrsFiltradosAT = useMemo(() => {
+        return filtrarTudoComDataDeRecebimentoDentroDoPeriodo(detailedReferencePeriodListAT || [], primeiroDiaDoAno, dateToTrimestre4)
+    }, [detailedReferencePeriodListAT, anoSelecionado])
+
+    const groupedWasteTypeAT = useMemo(() => {
+        return agruparPorTipoDeResiduo(mtrsFiltradosAT)
+    }, [mtrsFiltradosAT])
+
+    const totalAcumuladoAT = useMemo(() => {
+        return totalizarQuantidadeRecebida(groupedWasteTypeAT)
+    }, [groupedWasteTypeAT])
+
+    const allDetailedMtrs = useMemo(() => {
+        return [...(detailedReferencePeriodListGerador ?? []), ...(detailedReferencePeriodListAT ?? [])]
+    }, [detailedReferencePeriodListGerador, detailedReferencePeriodListAT])
+
+    const todosMtrsDetalhadosFiltrados = useMemo(() => {
+        return filtrarTudoComDataDeRecebimentoDentroDoPeriodo(allDetailedMtrs, primeiroDiaDoAno, dateToTrimestre4)
+    }, [allDetailedMtrs, anoSelecionado])
+
+    const mtrsAgrupadosPorMes = useMemo(() => {
+        return agruparPorMesDeRecebimento(todosMtrsDetalhadosFiltrados)
+    }, [todosMtrsDetalhadosFiltrados])
+
+    const totalChartData = useMemo(() => {
+        return totalizarPorMesDeRecebimento(mtrsAgrupadosPorMes)
+    }, [mtrsAgrupadosPorMes])
+
+    const totalAcumuladoGeral = useMemo(() => {
+        return totalizarQuantidadeRecebida(agruparPorTipoDeResiduo(todosMtrsDetalhadosFiltrados))
+    }, [todosMtrsDetalhadosFiltrados])
+
     const isLoadingGerador = !isSuccessListGerador_trimestre4 || !isSuccessListGerador_trimestre3 || !isSuccessListGerador_trimestre2 || !isSuccessListGerador_trimestre1 || !isSuccessListGerador_trimestre4_AnoAnterior || !isSuccessListGerador_trimestre3_ultimos10dias_AnoAnterior;
     const isErrorGerador = isErrorListGerador_trimestre4 || isErrorListGerador_trimestre3 || isErrorListGerador_trimestre2 || isErrorListGerador_trimestre1 || isErrorListGerador_trimestre4_AnoAnterior || isErrorListGerador_trimestre3_ultimos10dias_AnoAnterior;
     const errorGerador = errorListGerador_trimestre4 || errorListGerador_trimestre3 || errorListGerador_trimestre2 || errorListGerador_trimestre1 || errorListGerador_trimestre4_AnoAnterior || errorListGerador_trimestre3_ultimos10dias_AnoAnterior;
@@ -273,7 +320,7 @@ export default function VisaoGeral() {
     
     if(isLoadingDetailsAT) return <CustomMessage message="Carregando detalhes dos MTRs do Armazenamento Temporário..."/>
     if (isErrorDetailsAT && errorDetailsAT) return <p className="flex w-full justify-center text-center bg-red-400">Erro ao carregar detalhes dos MTRs do Armazenamento Temporário: {errorDetailsAT.message}</p>;
-
+    
     return(
         <div id="topo" className="flex flex-col gap-6 p-6">
             
@@ -281,22 +328,19 @@ export default function VisaoGeral() {
                 <ScoreboardItem>
                     <ScoreboardTitle>Minha movimentação como gerador para o destinador final</ScoreboardTitle>
                     <ScoreboardSubtitle>{`Período: ${anoSelecionado}`}</ScoreboardSubtitle>
-                    <ScoreboardMainText className="text-gray-400">{totalizarQuantidadeRecebida(agruparPorTipoDeResiduo(filtrarTudoComDataDeRecebimentoDentroDoPeriodo(detailedReferencePeriodListGerador || [], dateFromTrimestre1, dateToTrimestre4))).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</ScoreboardMainText>
+                    <ScoreboardMainText className="text-gray-400">{totalAcumuladoGerador.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</ScoreboardMainText>
                     <ScoreboardSubtitle>Quantidade recebida pelo destinador</ScoreboardSubtitle>
                 </ScoreboardItem>
                 <ScoreboardItem>
                     <ScoreboardTitle>Minha movimentação como Armazenador Temporário para o destinador final</ScoreboardTitle>
                     <ScoreboardSubtitle>{`Período: ${anoSelecionado}`}</ScoreboardSubtitle>
-                    <ScoreboardMainText className="text-gray-400">{totalizarQuantidadeRecebida(agruparPorTipoDeResiduo(filtrarTudoComDataDeRecebimentoDentroDoPeriodo(detailedReferencePeriodListAT || [], dateFromTrimestre1, dateToTrimestre4))).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</ScoreboardMainText>
+                    <ScoreboardMainText className="text-gray-400">{totalAcumuladoAT.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</ScoreboardMainText>
                     <ScoreboardSubtitle>Quantidade recebida pelo destinador</ScoreboardSubtitle>
                 </ScoreboardItem>
                 <ScoreboardItem>
                     <ScoreboardTitle>Minha movimentação total para destinador final</ScoreboardTitle>
                     <ScoreboardSubtitle>{`Período: ${anoSelecionado}`}</ScoreboardSubtitle>
-                    <ScoreboardMainText>{totalizarQuantidadeRecebida(agruparPorTipoDeResiduo([
-                        ...filtrarTudoComDataDeRecebimentoDentroDoPeriodo(detailedReferencePeriodListGerador || [], dateFromTrimestre1, dateToTrimestre4), 
-                        ...filtrarTudoComDataDeRecebimentoDentroDoPeriodo(detailedReferencePeriodListAT || [], dateFromTrimestre1, dateToTrimestre4)
-                    ])).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</ScoreboardMainText>
+                    <ScoreboardMainText>{totalAcumuladoGeral.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</ScoreboardMainText>
                     <ScoreboardSubtitle>Quantidade recebida pelo destinador</ScoreboardSubtitle>
                 </ScoreboardItem>
             </Scoreboard>
@@ -308,34 +352,10 @@ export default function VisaoGeral() {
                         title="Destinação total de resíduos por mês"
                         setDataResiduos={setDataGraficoPizza}
                         setMesSelecionado={setMesSelecionadoGraficoPizza}
-                        dataMTRs={agruparPorMesDeRecebimento(
-                            filtrarTudoComDataDeRecebimentoDentroDoPeriodo(
-                                [...detailedReferencePeriodListGerador ?? [], ...detailedReferencePeriodListAT ?? []], 
-                                dateFromTrimestre1, 
-                                dateToTrimestre4
-                            )
-                        )}
+                        dataMTRs={mtrsAgrupadosPorMes}
                         subTitle={anoSelecionado}
-                        acumulated={totalizarQuantidadeRecebida(
-                            agruparPorTipoDeResiduo(
-                                filtrarTudoComDataDeRecebimentoDentroDoPeriodo(
-                                    [...detailedReferencePeriodListGerador ?? [], ...detailedReferencePeriodListAT ?? []], 
-                                    dateFromTrimestre1, 
-                                    dateToTrimestre4
-                                )
-                            )
-                        )}
-                        dataChart={
-                            totalizarPorMesDeRecebimento(
-                                agruparPorMesDeRecebimento(
-                                    filtrarTudoComDataDeRecebimentoDentroDoPeriodo(
-                                        [...detailedReferencePeriodListGerador ?? [], ...detailedReferencePeriodListAT ?? []], 
-                                        dateFromTrimestre1, 
-                                        dateToTrimestre4
-                                    )
-                                )
-                            )
-                        }
+                        acumulated={totalAcumuladoGeral}
+                        dataChart={totalChartData}
                     />
                 </div>
 
