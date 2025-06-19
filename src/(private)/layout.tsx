@@ -117,14 +117,14 @@ function SubMenuBar({ perfil } :SubMenuBarProps) {
         <div className="divide-x pr-2">
           {
             (pathname === `/movimentacao-gerador-para-o-destinador-final` ?
-            <span className="font-light leading-relaxed select-none px-2 border-b-4 border-b-[#00BCD4]">Minhas movimentações para o destinador final</span> :
-            <Link to="/movimentacao-gerador-para-o-destinador-final" className="font-light px-2 border-b-4 border-b-gray-300">Minhas movimentações para o destinador final</Link>  
+            <span className="font-light leading-relaxed select-none px-2 py-0.5 border-b-2 border-b-[#00BCD4]">Minhas movimentações para o destinador final</span> :
+            <Link to="/movimentacao-gerador-para-o-destinador-final" className="font-light px-2 py-0.5 border-b-2 border-b-gray-300">Minhas movimentações para o destinador final</Link>  
             ) }
           
           {
             (pathname === `/movimentacao-gerador-para-o-destinador-final-visao-geral` ?
-            <span className="font-light leading-relaxed select-none px-2 border-b-4 border-b-[#00BCD4]">Visão geral</span> :
-            <Link to="/movimentacao-gerador-para-o-destinador-final-visao-geral" className="font-light px-2 border-b-4 border-b-gray-300">Visão geral</Link>  
+            <span className="font-light leading-relaxed select-none px-2 py-0.5 border-b-2 border-b-[#00BCD4]">Visão geral</span> :
+            <Link to="/movimentacao-gerador-para-o-destinador-final-visao-geral" className="font-light px-2 py-0.5 border-b-2 border-b-gray-300">Visão geral</Link>  
             ) }
         </div>
       }
@@ -133,14 +133,14 @@ function SubMenuBar({ perfil } :SubMenuBarProps) {
         <div className="divide-x pr-2">
           { 
             (pathname === `/movimentacao-para-o-destinador-final` ?
-            <span className="font-light leading-relaxed select-none px-2 border-b-4 border-b-[#00BCD4]">Movimentação para o destinador final</span> :
-            <Link to="/movimentacao-para-o-destinador-final" className="font-light leading-relaxed px-2 border-b-4 border-b-gray-300">Movimentação para o destinador final</Link>  
+            <span className="font-light leading-relaxed select-none px-2 py-0.5 border-b-2 border-b-[#00BCD4]">Movimentação para o destinador final</span> :
+            <Link to="/movimentacao-para-o-destinador-final" className="font-light leading-relaxed px-2 py-0.5 border-b-2 border-b-gray-300">Movimentação para o destinador final</Link>  
             ) }
 
           { 
             (pathname === `/visao-geral-destinacao` ?
-            <span className="font-light leading-relaxed select-none px-2 border-b-4 border-b-[#00BCD4]">Visão geral</span> :
-            <Link to="/visao-geral-destinacao" className="font-light leading-relaxed px-2 border-b-4 border-b-gray-300">Visão geral</Link>  
+            <span className="font-light leading-relaxed select-none px-2 py-0.5 border-b-2 border-b-[#00BCD4]">Visão geral</span> :
+            <Link to="/visao-geral-destinacao" className="font-light leading-relaxed px-2 py-0.5 border-b-2 border-b-gray-300">Visão geral</Link>  
             ) }
         </div>
       }

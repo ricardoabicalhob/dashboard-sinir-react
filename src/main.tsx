@@ -24,8 +24,8 @@ import DestinacaoAgrupada from './(private)/movimentacao-para-o-destinador-final
 import ArmazenadorTemporarioPage from './(private)/armazenador-temporario/page.tsx'
 import MovimentacaoParaATPage from './(private)/movimentacao-gerador-para-o-armazenador-temporario/page.tsx'
 import MovimentacaoParaDFPage from './(private)/movimentacao-gerador-para-o-destinador-final/page.tsx'
-import VisaoGeral from './(private)/dashboard/page.tsx'
 import MovimetacaoGeradorParaDestinadorFinalVisaoGeral from './(private)/movimentacao-gerador-para-o-destinador-final-visao-geral/page.tsx'
+import VisaoGeral from './(private)/dashboard-visao-geral/page.tsx'
 
 const basename = import.meta.env.BASE_URL
 
