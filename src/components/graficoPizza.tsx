@@ -13,7 +13,7 @@ import {
   ChartLegendContent,
 } from "@/components/ui/chart"
 import type { GroupByWasteTypeOutput } from "@/utils/fnFilters"
-import { useEffect, useMemo } from "react"
+import { useMemo } from "react"
 
 export const description = "A pie chart with a legend"
 
