@@ -4,7 +4,7 @@ import path from 'path'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/dashboard-sinir-react/',
+  base: process.env.VITE_BASE_URL || '/dashboard-sinir-react/',
   plugins: [react()],
   resolve: {
     alias: {
