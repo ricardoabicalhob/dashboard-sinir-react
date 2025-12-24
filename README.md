@@ -55,10 +55,10 @@ Com ele, é possível acompanhar a geração, o armazenamento temporário e a de
 
 ```bash
 # Clone o repositório
-git clone https://github.com/seu-usuario/seu-repositorio.git
+git clone https://github.com/ricardoabicalhob/dashboard-sinir-react.git
 
 # Acesse o diretório
-cd seu-repositorio
+cd dashboard-sinir-react
 
 # Instale as dependências
 npm install
